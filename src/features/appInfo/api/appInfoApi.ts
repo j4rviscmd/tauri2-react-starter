@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { tauriBaseQuery } from '../../../shared/api/tauriBaseQuery'
+import { tauriBaseQuery } from '@/shared/api/tauriBaseQuery'
 
 export type AppInfo = {
   name: string
