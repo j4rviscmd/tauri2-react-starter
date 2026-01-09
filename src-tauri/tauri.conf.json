@@ -4,13 +4,16 @@
   "version": "0.1.0",
   "identifier": "com.example.tauri2reactstarter",
   "build": {
-    "frontendDist": "../dist"
+    "frontendDist": "../dist",
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build"
   },
   "app": {
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "--app-name",
+        "title": "tauri2-react-starter",
         "width": 800,
         "height": 600
       }
