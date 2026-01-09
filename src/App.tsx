@@ -1,6 +1,6 @@
-import { useRoutes } from 'react-router'
+import { useRoutes } from "react-router"
 
-import { routes } from './app/routes/routes.tsx'
+import { routes } from "./app/routes/routes.tsx"
 
 function App() {
   return useRoutes(routes)

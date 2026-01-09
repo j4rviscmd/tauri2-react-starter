@@ -1,5 +1,5 @@
-import { invoke } from '@tauri-apps/api/core'
-import type { BaseQueryFn } from '@reduxjs/toolkit/query'
+import { invoke } from "@tauri-apps/api/core"
+import type { BaseQueryFn } from "@reduxjs/toolkit/query"
 
 type TauriBaseQueryArgs = {
   command: string

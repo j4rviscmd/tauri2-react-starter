@@ -1,6 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit"
 
-import { appInfoApi } from '@/features/appInfo/api/appInfoApi'
+import { appInfoApi } from "@/features/appInfo/api/appInfoApi"
 
 export const store = configureStore({
   reducer: {

@@ -1,15 +1,15 @@
-import type { RouteObject } from 'react-router'
+import type { RouteObject } from "react-router"
 
-import { HomePage } from '@/pages/home'
-import { SettingsPage } from '@/pages/settings'
+import { HomePage } from "@/pages/home"
+import { SettingsPage } from "@/pages/settings"
 
 export const routes: RouteObject[] = [
   {
-    path: '/',
+    path: "/",
     element: <HomePage />,
   },
   {
-    path: '/settings',
+    path: "/settings",
     element: <SettingsPage />,
   },
 ]

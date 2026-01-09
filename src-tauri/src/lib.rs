@@ -18,6 +18,7 @@ fn get_app_info() -> AppInfo {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_store::Builder::default().build())
         .invoke_handler(tauri::generate_handler![get_app_info])
         .run(tauri::generate_context!())
         .expect("tauri アプリケーション起動時にエラーが発生しました");
