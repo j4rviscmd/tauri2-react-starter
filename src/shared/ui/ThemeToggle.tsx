@@ -1,35 +1,15 @@
-import { useEffect, useState } from "react"
-
-import { themeStore } from "@/shared/lib/themeStore"
+import { useTheme } from "@/app/providers/ThemeProvider"
+import { AnimatedGradientText } from "@/shared/ui/animated-gradient-text"
 import { Button } from "@/shared/ui/button"
 
-type Theme = "light" | "dark"
-
-function toggleTheme(theme: Theme): Theme {
-  return theme === "dark" ? "light" : "dark"
-}
-
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("light")
-
-  useEffect(() => {
-    const load = async () => {
-      const saved = await themeStore.getTheme()
-      setTheme(saved ?? "light")
-    }
-
-    void load()
-  }, [])
-
-  const onToggle = async () => {
-    const next = toggleTheme(theme)
-    setTheme(next)
-    await themeStore.setTheme(next)
-  }
+  const { theme, toggleTheme } = useTheme()
 
   return (
-    <Button type="button" variant="outline" onClick={() => void onToggle()}>
-      {theme === "dark" ? "Dark" : "Light"}
+    <Button type="button" variant="outline" onClick={() => void toggleTheme()}>
+      <AnimatedGradientText speed={1.2}>
+        {theme === "dark" ? "Switch to Light" : "Switch to Dark"}
+      </AnimatedGradientText>
     </Button>
   )
 }
