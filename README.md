@@ -1,5 +1,11 @@
 # tauri2-react-starter
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Built with Tauri](https://img.shields.io/badge/Built%20with-Tauri-24C8DB)
+![React + Vite + TS](https://img.shields.io/badge/React%20%2B%20Vite-TypeScript-2ea44f)
+[![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<owner>/<repo>/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/<owner>/<repo>?label=release)](https://github.com/<owner>/<repo>/releases)
+
 ## Directory Structure (Co-location)
 
 We use a **feature-based, co-located** folder strategy.

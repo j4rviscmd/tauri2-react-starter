@@ -22,3 +22,21 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Vite cache / temp build artifacts
+.vite
+
+# Test coverage output
+coverage
+
+# Tauri / Rust (duplicates across .gitignore files are fine)
+src-tauri/target
+src-tauri/gen
+
+# Installer/bundle outputs
+installer/
+*.app
+*.dmg
+*.pkg
+*.exe
+*.msi

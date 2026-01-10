@@ -21,5 +21,5 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::default().build())
         .invoke_handler(tauri::generate_handler![get_app_info])
         .run(tauri::generate_context!())
-        .expect("tauri アプリケーション起動時にエラーが発生しました");
+        .expect("an error occurred while running the Tauri application");
 }
