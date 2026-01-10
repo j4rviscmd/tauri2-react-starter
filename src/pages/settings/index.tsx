@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router"
 
+import { CounterCard } from "@/features/counter/ui/CounterCard"
 import { useGetAppInfoQuery } from "@/features/appInfo/api/appInfoApi"
 import { AnimatedGradientText } from "@/shared/ui/animated-gradient-text"
 import { Button } from "@/shared/ui/button"
@@ -24,6 +25,8 @@ export function SettingsPage() {
         <p>magic-ui っぽい CTA ボタンでテーマを切り替えできます。</p>
         <ThemeToggle />
       </section>
+
+      <CounterCard title="Counter (Redux shared state)" />
 
       {isLoading && <p>読み込み中...</p>}
       {isError && <p>読み込みに失敗しました</p>}

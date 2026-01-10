@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
 
 import { appInfoApi } from "@/features/appInfo/api/appInfoApi"
+import { counterReducer } from "@/features/counter/model/counterSlice"
 
 export const store = configureStore({
   reducer: {
+    counter: counterReducer,
     [appInfoApi.reducerPath]: appInfoApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
