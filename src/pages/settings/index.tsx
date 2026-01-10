@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router"
+import { useNavigate } from 'react-router'
 
-import { CounterCard } from "@/features/counter/ui/CounterCard"
-import { useGetAppInfoQuery } from "@/features/appInfo/api/appInfoApi"
-import { AnimatedGradientText } from "@/shared/ui/animated-gradient-text"
-import { Button } from "@/shared/ui/button"
-import { ThemeToggle } from "@/shared/ui/ThemeToggle"
-import { useTheme } from "@/app/providers/ThemeProvider"
+import { useTheme } from '@/app/providers/ThemeProvider'
+import { useGetAppInfoQuery } from '@/features/appInfo/api/appInfoApi'
+import { CounterCard } from '@/features/counter/ui/CounterCard'
+import { AnimatedGradientText } from '@/shared/ui/animated-gradient-text'
+import { Button } from '@/shared/ui/button'
+import { ThemeToggle } from '@/shared/ui/ThemeToggle'
 
 export function SettingsPage() {
   const navigate = useNavigate()
@@ -13,12 +13,12 @@ export function SettingsPage() {
   const { theme } = useTheme()
 
   return (
-    <div className="flex min-h-screen gap-4 flex-col items-center justify-center">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4">
       <div className="text-3xl">Tauri 2 + React Starter</div>
       <div className="text-xl">Settings Page</div>
 
       <div>
-        <Button type="button" variant="outline" onClick={() => navigate("/")}>
+        <Button type="button" variant="outline" onClick={() => navigate('/')}>
           <AnimatedGradientText speed={1.2}>Back to Home</AnimatedGradientText>
         </Button>
       </div>
@@ -34,19 +34,19 @@ export function SettingsPage() {
       {isError && <p>failed to load</p>}
 
       {data && (
-        <table className="border-primary/50 border">
+        <table className="border border-primary/50">
           <tbody>
-            <tr className="border-primary/50 border">
+            <tr className="border border-primary/50">
               <th className="p-1">name</th>
-              <td className="p-1 border border-primary/50">{data.name}</td>
+              <td className="border border-primary/50 p-1">{data.name}</td>
             </tr>
-            <tr className="border-primary/50 border">
+            <tr className="border border-primary/50">
               <th className="p-1">version</th>
-              <td className="p-1 border border-primary/50">{data.version}</td>
+              <td className="border border-primary/50 p-1">{data.version}</td>
             </tr>
-            <tr className="border-primary/50 border">
+            <tr className="border border-primary/50">
               <th className="p-1">theme</th>
-              <td className="p-1 border border-primary/50">{theme}</td>
+              <td className="border border-primary/50 p-1">{theme}</td>
             </tr>
           </tbody>
         </table>

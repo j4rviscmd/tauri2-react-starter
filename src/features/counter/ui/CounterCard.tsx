@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 
-import type { AppDispatch } from "@/app/store/store"
+import type { AppDispatch } from '@/app/store/store'
 import {
   increment,
   selectCounterValue,
-} from "@/features/counter/model/counterSlice"
-import { AnimatedGradientText } from "@/shared/ui/animated-gradient-text"
-import { Button } from "@/shared/ui/button"
+} from '@/features/counter/model/counterSlice'
+import { AnimatedGradientText } from '@/shared/ui/animated-gradient-text'
+import { Button } from '@/shared/ui/button'
 
 type Props = {
   title: string
@@ -18,7 +18,7 @@ export function CounterCard({ title }: Props) {
 
   return (
     <div>
-      <div className="flex flex-col space-y-1 items-center justify-center w-full">
+      <div className="flex w-full flex-col items-center justify-center space-y-1">
         <div className="flex items-center gap-3">
           <div>{title}</div>
           <div>:</div>

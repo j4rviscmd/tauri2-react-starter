@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore } from '@reduxjs/toolkit'
 
-import { appInfoApi } from "@/features/appInfo/api/appInfoApi"
-import { counterReducer } from "@/features/counter/model/counterSlice"
+import { appInfoApi } from '@/features/appInfo/api/appInfoApi'
+import { counterReducer } from '@/features/counter/model/counterSlice'
 
 export const store = configureStore({
   reducer: {

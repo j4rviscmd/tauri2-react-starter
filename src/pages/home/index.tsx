@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router"
+import { useNavigate } from 'react-router'
 
-import { CounterCard } from "@/features/counter/ui/CounterCard"
-import { AnimatedGradientText } from "@/shared/ui/animated-gradient-text"
-import { Button } from "@/shared/ui/button"
+import { CounterCard } from '@/features/counter/ui/CounterCard'
+import { AnimatedGradientText } from '@/shared/ui/animated-gradient-text'
+import { Button } from '@/shared/ui/button'
 
 export function HomePage() {
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ export function HomePage() {
       <CounterCard title="Counter (Redux shared state)" />
 
       <div>
-        <Button type="button" onClick={() => navigate("/settings")}>
+        <Button type="button" onClick={() => navigate('/settings')}>
           <AnimatedGradientText speed={1.2}>Open Settings</AnimatedGradientText>
         </Button>
       </div>

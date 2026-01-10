@@ -1,8 +1,8 @@
-import type { ReactNode } from "react"
-import { Provider } from "react-redux"
+import type { ReactNode } from 'react'
+import { Provider } from 'react-redux'
 
-import { ThemeProvider } from "@/app/providers/ThemeProvider"
-import { store } from "@/app/store/store"
+import { ThemeProvider } from '@/app/providers/ThemeProvider'
+import { store } from '@/app/store/store'
 
 type Props = {
   children: ReactNode

@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from '@reduxjs/toolkit'
 
-import type { RootState } from "@/app/store/store"
+import type { RootState } from '@/app/store/store'
 
 type CounterState = {
   value: number
@@ -11,7 +11,7 @@ const initialState: CounterState = {
 }
 
 export const counterSlice = createSlice({
-  name: "counter",
+  name: 'counter',
   initialState,
   reducers: {
     increment: (state) => {
