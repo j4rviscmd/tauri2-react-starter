@@ -19,18 +19,18 @@ export function CounterCard({ title }: Props) {
   return (
     <div>
       <div className="flex flex-col space-y-1 items-center justify-center w-full">
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
           <div>{title}</div>
-          <div className="px-1">:</div>
+          <div>:</div>
           <div>{value}</div>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => dispatch(increment())}
+          >
+            <AnimatedGradientText speed={1.2}>Count up</AnimatedGradientText>
+          </Button>
         </div>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => dispatch(increment())}
-        >
-          <AnimatedGradientText speed={1.2}>Count up</AnimatedGradientText>
-        </Button>
       </div>
     </div>
   )

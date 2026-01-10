@@ -5,40 +5,52 @@ import { useGetAppInfoQuery } from "@/features/appInfo/api/appInfoApi"
 import { AnimatedGradientText } from "@/shared/ui/animated-gradient-text"
 import { Button } from "@/shared/ui/button"
 import { ThemeToggle } from "@/shared/ui/ThemeToggle"
+import { useTheme } from "@/app/providers/ThemeProvider"
 
 export function SettingsPage() {
   const navigate = useNavigate()
   const { data, isLoading, isError } = useGetAppInfoQuery()
+  const { theme } = useTheme()
 
   return (
-    <main>
-      <h1>Settings</h1>
+    <div className="flex min-h-screen gap-4 flex-col items-center justify-center">
+      <div className="text-3xl">Tauri 2 + React Starter</div>
+      <div className="text-xl">Settings Page</div>
 
-      <section>
+      <div>
         <Button type="button" variant="outline" onClick={() => navigate("/")}>
           <AnimatedGradientText speed={1.2}>Back to Home</AnimatedGradientText>
         </Button>
-      </section>
-
-      <section>
-        <h2>Theme</h2>
-        <p>magic-ui っぽい CTA ボタンでテーマを切り替えできます。</p>
-        <ThemeToggle />
-      </section>
+      </div>
 
       <CounterCard title="Counter (Redux shared state)" />
 
-      {isLoading && <p>読み込み中...</p>}
-      {isError && <p>読み込みに失敗しました</p>}
+      <div className="flex items-center gap-3">
+        <h2>Theme</h2>
+        <ThemeToggle />
+      </div>
+
+      {isLoading && <p>now loading...</p>}
+      {isError && <p>failed to load</p>}
 
       {data && (
-        <dl>
-          <dt>name</dt>
-          <dd>{data.name}</dd>
-          <dt>version</dt>
-          <dd>{data.version}</dd>
-        </dl>
+        <table className="border-primary/50 border">
+          <tbody>
+            <tr className="border-primary/50 border">
+              <th className="p-1">name</th>
+              <td className="p-1 border border-primary/50">{data.name}</td>
+            </tr>
+            <tr className="border-primary/50 border">
+              <th className="p-1">version</th>
+              <td className="p-1 border border-primary/50">{data.version}</td>
+            </tr>
+            <tr className="border-primary/50 border">
+              <th className="p-1">theme</th>
+              <td className="p-1 border border-primary/50">{theme}</td>
+            </tr>
+          </tbody>
+        </table>
       )}
-    </main>
+    </div>
   )
 }

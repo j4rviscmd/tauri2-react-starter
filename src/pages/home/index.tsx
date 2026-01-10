@@ -8,8 +8,9 @@ export function HomePage() {
   const navigate = useNavigate()
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4 p-4">
       <div className="text-3xl">Tauri 2 + React Starter</div>
+      <div className="text-xl">Home Page</div>
 
       <CounterCard title="Counter (Redux shared state)" />
 
