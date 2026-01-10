@@ -40,3 +40,6 @@ installer/
 *.pkg
 *.exe
 *.msi
+
+**/*/CLAUDE.md
+!./CLAUDE.md
