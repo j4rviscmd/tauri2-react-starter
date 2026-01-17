@@ -126,7 +126,7 @@ Reusable, non-domain-specific building blocks used across the app.
 - `features` must not import from `pages`.
 - Avoid importing directly from other `features`. Prefer composition in `pages`,
   or move truly generic parts into `shared`.
-- Prefer importing from a feature’s `index.ts` (public API) instead of deep paths.
+- Prefer importing from a feature's `index.ts` (public API) instead of deep paths.
 
 ### Path Aliases
 
@@ -134,3 +134,36 @@ Reusable, non-domain-specific building blocks used across the app.
 - `@/pages/*`
 - `@/features/*`
 - `@/shared/*`
+
+## Release Setup (For Forked Repositories)
+
+This template includes Tauri's auto-update functionality. After forking,
+configure the following:
+
+### Required GitHub Secrets
+
+| Secret Name | Description |
+|-------------|-------------|
+| `TAURI_SIGNING_PRIVATE_KEY` | Private key for signing updates |
+| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | Password for the private key |
+
+### Configuration Files to Update
+
+1. **`src-tauri/tauri.conf.json`** - Set `plugins.updater.pubkey` and update
+   `endpoints` URL with your repository path
+2. **`README.md`** - Replace `<owner>/<repo>` in badge URLs
+
+### Documentation
+
+- [Tauri Updater Plugin](https://v2.tauri.app/plugin/updater/) - Key generation
+  and configuration
+- [GitHub Actions](https://v2.tauri.app/distribute/pipelines/github/) - CI/CD
+  setup
+
+### Creating a Release
+
+1. Update version in `package.json`, `src-tauri/tauri.conf.json`, and
+   `src-tauri/Cargo.toml`
+2. Create and push a tag: `git tag v0.1.0 && git push origin v0.1.0`
+3. GitHub Actions builds and creates a draft release
+4. Review and publish the release on GitHub
