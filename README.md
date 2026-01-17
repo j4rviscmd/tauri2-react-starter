@@ -142,10 +142,10 @@ configure the following:
 
 ### Required GitHub Secrets
 
-| Secret Name | Description |
-|-------------|-------------|
-| `TAURI_SIGNING_PRIVATE_KEY` | Private key for signing updates |
-| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | Password for the private key |
+| Secret Name                          | Description                     |
+| ------------------------------------ | ------------------------------- |
+| `TAURI_SIGNING_PRIVATE_KEY`          | Private key for signing updates |
+| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | Password for the private key    |
 
 ### Configuration Files to Update
 
