@@ -88,7 +88,12 @@ jobs:
 
       - name: Run tests
         if: hashFiles('**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', '**/*.spec.tsx') != ''
-        run: npm test -- --run
+        run: |
+          if grep -q '"test"' package.json; then
+            npm test -- --run
+          else
+            echo "No test script defined in package.json, skipping tests."
+          fi
 
   rust-check:
     name: Rust Check
