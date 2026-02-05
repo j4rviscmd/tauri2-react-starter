@@ -20,11 +20,9 @@ export function HomePage() {
 
       <CounterCard title="Counter (Redux shared state)" />
 
-      <div>
-        <Button type="button" onClick={() => navigate('/settings')}>
-          <AnimatedGradientText speed={1.2}>Open Settings</AnimatedGradientText>
-        </Button>
-      </div>
+      <Button type="button" onClick={() => navigate('/settings')}>
+        <AnimatedGradientText speed={1.2}>Open Settings</AnimatedGradientText>
+      </Button>
     </div>
   )
 }

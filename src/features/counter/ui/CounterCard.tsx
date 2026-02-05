@@ -26,20 +26,17 @@ export function CounterCard({ title }: Props) {
   const value = useSelector(selectCounterValue)
 
   return (
-    <div>
-      <div className="flex w-full flex-col items-center justify-center space-y-1">
-        <div className="flex items-center gap-3">
-          <div>{title}</div>
-          <div>:</div>
-          <div>{value}</div>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => dispatch(increment())}
-          >
-            <AnimatedGradientText speed={1.2}>Count up</AnimatedGradientText>
-          </Button>
-        </div>
+    <div className="flex w-full flex-col items-center justify-center space-y-1">
+      <div className="flex items-center gap-3">
+        <span>{title}:</span>
+        <span>{value}</span>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => dispatch(increment())}
+        >
+          <AnimatedGradientText speed={1.2}>Count up</AnimatedGradientText>
+        </Button>
       </div>
     </div>
   )
