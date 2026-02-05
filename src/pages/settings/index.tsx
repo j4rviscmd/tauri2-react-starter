@@ -23,11 +23,9 @@ export function SettingsPage() {
       <div className="text-3xl">Tauri 2 + React Starter</div>
       <div className="text-xl">Settings Page</div>
 
-      <div>
-        <Button type="button" variant="outline" onClick={() => navigate('/')}>
-          <AnimatedGradientText speed={1.2}>Back to Home</AnimatedGradientText>
-        </Button>
-      </div>
+      <Button type="button" variant="outline" onClick={() => navigate('/')}>
+        <AnimatedGradientText speed={1.2}>Back to Home</AnimatedGradientText>
+      </Button>
 
       <CounterCard title="Counter (Redux shared state)" />
 
