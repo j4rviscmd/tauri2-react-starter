@@ -77,30 +77,11 @@ export const {
 
 // Selectors
 
-/**
- * Selects the current update status from the Redux store.
- */
 export const selectUpdaterStatus = (state: RootState) => state.updater.status
-
-/**
- * Selects the available update information from the Redux store.
- */
 export const selectUpdateInfo = (state: RootState) => state.updater.updateInfo
-
-/**
- * Selects the download progress from the Redux store.
- */
 export const selectDownloadProgress = (state: RootState) =>
   state.updater.progress
-
-/**
- * Selects the update error from the Redux store.
- */
 export const selectUpdaterError = (state: RootState) => state.updater.error
-
-/**
- * Selects whether the update dialog is open.
- */
 export const selectIsDialogOpen = (state: RootState) =>
   state.updater.isDialogOpen
 
