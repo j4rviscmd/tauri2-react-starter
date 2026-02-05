@@ -1,42 +1,93 @@
-name: Release
+name: 'publish'
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
 
 jobs:
-  check-tag:
+  preflight:
+    name: Preflight — check if release already exists
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     outputs:
-      should_release: ${{ steps.check.outputs.should_release }}
+      skip: ${{ steps.check.outputs.skip }}
     steps:
-      - name: Check if release already exists
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check for existing tag/release v__VERSION__
         id: check
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          TAG_NAME="${GITHUB_REF#refs/tags/}"
-          if gh release view "$TAG_NAME" --repo ${{ github.repository }} > /dev/null 2>&1; then
-            echo "Release for tag $TAG_NAME already exists. Skipping."
-            echo "should_release=false" >> $GITHUB_OUTPUT
-          else
-            echo "No existing release for tag $TAG_NAME. Proceeding."
-            echo "should_release=true" >> $GITHUB_OUTPUT
-          fi
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            // Read version primarily from Tauri config, fallback to package.json
+            const cfgPath = path.join(process.cwd(), 'src-tauri', 'tauri.conf.json');
+            let version = '';
+            try {
+              const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
+              version = cfg.version || '';
+            } catch (e) {
+              core.info(`Failed reading ${cfgPath}: ${e.message}`);
+            }
+            if (!version) {
+              try {
+                const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
+                version = pkg.version || '';
+              } catch (e) {
+                core.info(`Failed reading package.json: ${e.message}`);
+              }
+            }
+            if (!version) {
+              core.setFailed('Unable to determine version from src-tauri/tauri.conf.json or package.json');
+              return;
+            }
+            const tagName = `v${version}`;
+            core.info(`Checking if tag or release exists for ${tagName} ...`);
 
-  release:
-    needs: check-tag
-    if: needs.check-tag.outputs.should_release == 'true'
+            // Check tag
+            try {
+              await github.rest.git.getRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${tagName}`,
+              });
+              core.info(`Tag ${tagName} already exists. Skipping release.`);
+              core.setOutput('skip', 'true');
+              return;
+            } catch (e) {
+              if (e.status !== 404) throw e;
+            }
+            // Check release
+            const releases = await github.rest.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+            const found = releases.data.find(r => r.tag_name === tagName);
+            if (found) {
+              core.info(`Release with tag ${tagName} already exists. Skipping release.`);
+              core.setOutput('skip', 'true');
+              return;
+            }
+            core.info(`OK: ${tagName} does not exist. Proceeding with release.`);
+            core.setOutput('skip', 'false');
+
+  publish-tauri:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
     permissions:
       contents: write
     strategy:
       fail-fast: false
       matrix:
         include:
-          - platform: 'macos-latest'
+          - platform: 'macos-latest' # Apple Silicon (M1+)
             args: '--target aarch64-apple-darwin'
-          - platform: 'macos-latest'
+          - platform: 'macos-latest' # Intel
             args: '--target x86_64-apple-darwin'
           - platform: 'ubuntu-22.04'
             args: ''
@@ -45,17 +96,30 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js (fixed)
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
 
-      - name: Install Rust stable
+      - name: Install Rust (stable)
         uses: dtolnay/rust-toolchain@stable
         with:
+          # Only needed on macOS runners; adds targets for universal builds
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Cache Rust (cargo registry, git, and target)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            src-tauri/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('src-tauri/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
 
       - name: Install dependencies (Ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
@@ -63,10 +127,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
-      - name: Install frontend dependencies
+      - name: Install frontend dependencies (npm ci)
+        if: ${{ hashFiles('package-lock.json') != '' }}
         run: npm ci
 
-      - name: Build Tauri app
+      - name: Install frontend dependencies (npm install)
+        if: ${{ hashFiles('package-lock.json') == '' }}
+        run: npm install
+
+      - name: Build and publish with Tauri
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -76,6 +145,11 @@ jobs:
           tagName: v__VERSION__
           releaseName: 'v__VERSION__'
           releaseBody: 'See the assets to download this version and install.'
-          releaseDraft: true
+          releaseDraft: false
           prerelease: false
+          generateReleaseNotes: true
+          # アップデータ用 JSON をリリースにアップロードするか（デフォルト true）
+          includeUpdaterJson: true
+          # Windows で NSIS の setup.exe を優先するか（将来 v2 では true になる可能性）
+          updaterJsonPreferNsis: true
           args: ${{ matrix.args }}
