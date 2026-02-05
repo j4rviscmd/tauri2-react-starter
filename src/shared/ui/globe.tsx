@@ -4,8 +4,10 @@ import { useEffect, useRef } from 'react'
 
 import { cn } from '@/shared/lib/utils'
 
+/** Movement damping factor for mouse/touch drag interaction. */
 const MOVEMENT_DAMPING = 1400
 
+/** Default configuration for the globe visualization. */
 const GLOBE_CONFIG: COBEOptions = {
   width: 800,
   height: 800,
@@ -34,6 +36,20 @@ const GLOBE_CONFIG: COBEOptions = {
   ],
 }
 
+/**
+ * Interactive 3D globe component using COBE.
+ *
+ * Renders an interactive globe with city markers. Supports mouse and touch
+ * interactions for rotation. The globe auto-rotates when not being interacted with.
+ *
+ * @param className - Additional CSS classes to apply.
+ * @param config - COBE configuration options (defaults to GLOBE_CONFIG).
+ *
+ * @example
+ * ```tsx
+ * <Globe className="absolute inset-0" />
+ * ```
+ */
 export function Globe({
   className,
   config = GLOBE_CONFIG,
@@ -54,6 +70,9 @@ export function Globe({
     stiffness: 100,
   })
 
+  /**
+   * Updates the pointer interaction state and cursor style.
+   */
   const updatePointerInteraction = (value: number | null) => {
     pointerInteracting.current = value
     if (canvasRef.current) {
@@ -61,6 +80,9 @@ export function Globe({
     }
   }
 
+  /**
+   * Updates the rotation value based on pointer movement.
+   */
   const updateMovement = (clientX: number) => {
     if (pointerInteracting.current !== null) {
       const delta = clientX - pointerInteracting.current

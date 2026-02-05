@@ -5,9 +5,12 @@ import { Settings } from 'lucide-react'
 import { Link, Outlet } from 'react-router'
 
 /**
- * アプリケーションシェル。
- * ヘッダー（アプリ名 + テーマトグル）とメインコンテンツエリアを構成する。
- * コンテンツエリアのみがスクロール可能で、ヘッダーは固定される。
+ * Application shell component that provides the main layout structure.
+ *
+ * Comprises a fixed header (with app title and theme toggle) and a scrollable
+ * main content area. Only the content area scrolls while the header remains fixed.
+ *
+ * @returns The application layout component.
  */
 export function AppLayout() {
   return (

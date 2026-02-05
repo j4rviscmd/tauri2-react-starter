@@ -9,11 +9,19 @@ import type {
   UpdateStatus,
 } from '../lib/updaterTypes'
 
+/**
+ * Redux slice state for application update functionality.
+ */
 type UpdaterState = {
+  /** Current status of the update process. */
   status: UpdateStatus
+  /** Information about the available update, if any. */
   updateInfo: UpdateInfo | null
+  /** Download progress information during update download. */
   progress: DownloadProgress | null
+  /** Error information if an update operation failed. */
   error: UpdateError | null
+  /** Whether the update notification dialog is currently open. */
   isDialogOpen: boolean
 }
 
@@ -25,6 +33,12 @@ const initialState: UpdaterState = {
   isDialogOpen: false,
 }
 
+/**
+ * Redux slice managing application update state and UI.
+ *
+ * Provides actions and selectors for controlling the update check,
+ * download, and installation process, as well as the update dialog.
+ */
 export const updaterSlice = createSlice({
   name: 'updater',
   initialState,
@@ -62,11 +76,31 @@ export const {
 } = updaterSlice.actions
 
 // Selectors
+
+/**
+ * Selects the current update status from the Redux store.
+ */
 export const selectUpdaterStatus = (state: RootState) => state.updater.status
+
+/**
+ * Selects the available update information from the Redux store.
+ */
 export const selectUpdateInfo = (state: RootState) => state.updater.updateInfo
+
+/**
+ * Selects the download progress from the Redux store.
+ */
 export const selectDownloadProgress = (state: RootState) =>
   state.updater.progress
+
+/**
+ * Selects the update error from the Redux store.
+ */
 export const selectUpdaterError = (state: RootState) => state.updater.error
+
+/**
+ * Selects whether the update dialog is open.
+ */
 export const selectIsDialogOpen = (state: RootState) =>
   state.updater.isDialogOpen
 
