@@ -51,7 +51,7 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
-  frontend:build:
+  frontend-build:
     name: Frontend Build
     runs-on: ubuntu-latest
     steps:
@@ -90,7 +90,7 @@ jobs:
         if: hashFiles('**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', '**/*.spec.tsx') != ''
         run: npm test -- --run
 
-  rust:check:
+  rust-check:
     name: Rust Check
     runs-on: ubuntu-latest
     steps:
@@ -104,7 +104,7 @@ jobs:
         working-directory: src-tauri
         run: cargo check
 
-  rust:clippy:
+  rust-clippy:
     name: Rust Clippy
     runs-on: ubuntu-latest
     steps:
@@ -118,7 +118,7 @@ jobs:
         working-directory: src-tauri
         run: cargo clippy -- -D warnings
 
-  rust:format:
+  rust-format:
     name: Rust Format
     runs-on: ubuntu-latest
     steps:
