@@ -9,6 +9,14 @@ type Props = {
   children: ReactNode
 }
 
+/**
+ * Root provider component that composes all application providers.
+ *
+ * Wraps the application with Redux, Theme, and Updater providers
+ * in the correct order. This should be placed at the top of the component tree.
+ *
+ * @param children - The application component tree.
+ */
 export function AppProviders({ children }: Props) {
   return (
     <Provider store={store}>

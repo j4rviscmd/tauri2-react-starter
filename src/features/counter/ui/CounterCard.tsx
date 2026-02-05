@@ -12,6 +12,15 @@ type Props = {
   title: string
 }
 
+/**
+ * Counter card component demonstrating Redux shared state.
+ *
+ * Displays the current counter value and an increment button.
+ * Multiple instances share the same Redux state, demonstrating
+ * state co-location and global state management.
+ *
+ * @param title - Descriptive title for the counter.
+ */
 export function CounterCard({ title }: Props) {
   const dispatch = useDispatch<AppDispatch>()
   const value = useSelector(selectCounterValue)

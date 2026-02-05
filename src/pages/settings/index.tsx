@@ -7,6 +7,12 @@ import { AnimatedGradientText } from '@/shared/ui/animated-gradient-text'
 import { Button } from '@/shared/ui/button'
 import { ThemeToggle } from '@/shared/ui/ThemeToggle'
 
+/**
+ * Settings page component.
+ *
+ * Displays application information (name, version), theme toggle,
+ * counter example, and navigation back to the home page.
+ */
 export function SettingsPage() {
   const navigate = useNavigate()
   const { data, isLoading, isError } = useGetAppInfoQuery()

@@ -12,19 +12,31 @@ import {
   setUpdateInfo,
 } from '../model/updaterSlice'
 
-// Store the update object for later use
+/** Stores the current update object for later download/install. */
 let currentUpdate: Update | null = null
 
 /**
- * Checks if running in development mode.
+ * Checks if the app is running in development mode.
+ *
+ * @returns true if running in development, false otherwise.
  */
 function isDevelopment(): boolean {
   return import.meta.env.DEV
 }
 
 /**
- * Checks for available updates and dispatches status to Redux.
- * Opens dialog if update is available.
+ * Checks for available application updates.
+ *
+ * Queries the Tauri updater plugin for new versions. If an update is found,
+ * stores the update object and opens the update dialog. Skips checking in
+ * development mode.
+ *
+ * @param dispatch - Redux dispatch function for state updates.
+ *
+ * @example
+ * ```typescript
+ * await checkForUpdates(dispatch)
+ * ```
  */
 export async function checkForUpdates(dispatch: AppDispatch): Promise<void> {
   // Skip update check in development mode
@@ -72,7 +84,16 @@ export async function checkForUpdates(dispatch: AppDispatch): Promise<void> {
 
 /**
  * Downloads and installs the available update.
- * Shows progress during download.
+ *
+ * Downloads the update package while reporting progress to Redux state.
+ * Once complete, closes the dialog and relaunches the application.
+ *
+ * @param dispatch - Redux dispatch function for state updates.
+ *
+ * @example
+ * ```typescript
+ * await downloadAndInstallUpdate(dispatch)
+ * ```
  */
 export async function downloadAndInstallUpdate(
   dispatch: AppDispatch,
@@ -138,7 +159,9 @@ export async function downloadAndInstallUpdate(
 }
 
 /**
- * Dismisses the update dialog without installing.
+ * Closes the update dialog without installing the update.
+ *
+ * @param dispatch - Redux dispatch function for state updates.
  */
 export function dismissUpdate(dispatch: AppDispatch): void {
   dispatch(closeDialog())

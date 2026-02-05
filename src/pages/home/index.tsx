@@ -4,6 +4,12 @@ import { CounterCard } from '@/features/counter/ui/CounterCard'
 import { AnimatedGradientText } from '@/shared/ui/animated-gradient-text'
 import { Button } from '@/shared/ui/button'
 
+/**
+ * Home page component.
+ *
+ * Displays the application title, a counter example, and navigation
+ * to the settings page.
+ */
 export function HomePage() {
   const navigate = useNavigate()
 

@@ -23,12 +23,23 @@ type Props = {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null)
 
+/**
+ * Applies or removes the 'dark' class on the document element.
+ *
+ * @param theme - The theme to apply ('light' or 'dark').
+ */
 function applyThemeClass(theme: Theme) {
   const root = document.documentElement
   if (theme === 'dark') root.classList.add('dark')
   else root.classList.remove('dark')
 }
 
+/**
+ * Internal hook to access the theme context.
+ *
+ * @throws {Error} If used outside of ThemeProvider.
+ * @returns The theme context value.
+ */
 function useThemeInternal(): ThemeContextValue {
   const value = useContext(ThemeContext)
   if (!value) throw new Error('useTheme must be used within ThemeProvider')
@@ -37,6 +48,14 @@ function useThemeInternal(): ThemeContextValue {
 
 export const useTheme = useThemeInternal
 
+/**
+ * Theme provider component that manages theme state and persistence.
+ *
+ * Loads the saved theme on mount and provides theme switching functionality
+ * to child components via context. Persists theme changes using the themeStore.
+ *
+ * @param children - Child components to be wrapped with theme context.
+ */
 export function ThemeProvider({ children }: Props) {
   const [theme, setThemeState] = useState<Theme>('light')
 
