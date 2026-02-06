@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router'
 
 import { AppLayout } from '@/app/layout/AppLayout'
+import AnimateUiSidebarPage from '@/pages/animate-ui-sidebar'
 import { HomePage } from '@/pages/home'
 import { SettingsPage } from '@/pages/settings'
 
@@ -11,6 +12,12 @@ import { SettingsPage } from '@/pages/settings'
  * All routes are nested under the AppLayout component.
  */
 export const routes: RouteObject[] = [
+  // Standalone route outside AppLayout
+  {
+    path: 'animate-ui-sidebar',
+    element: <AnimateUiSidebarPage />,
+  },
+  // Main application routes with AppLayout
   {
     path: '/',
     element: <AppLayout />,

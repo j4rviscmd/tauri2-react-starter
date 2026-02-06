@@ -1,4 +1,4 @@
-import { Home, Settings } from 'lucide-react'
+import { Frame, Home, Settings } from 'lucide-react'
 import { Link, useLocation } from 'react-router'
 
 import {
@@ -31,6 +31,11 @@ export function AppSidebar() {
       title: 'Home',
       url: '/',
       icon: Home,
+    },
+    {
+      title: 'Animate UI Sidebar',
+      url: '/animate-ui-sidebar',
+      icon: Frame,
     },
     {
       title: 'Settings',
