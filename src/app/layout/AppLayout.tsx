@@ -1,38 +1,46 @@
-import { Button } from '@/shared/ui/button'
+import { AppBar, AppSidebar } from '@/shared/ui/AppBar'
 import { ScrollArea } from '@/shared/ui/scroll-area'
-import { ThemeToggle } from '@/shared/ui/ThemeToggle'
-import { Settings } from 'lucide-react'
-import { Link, Outlet } from 'react-router'
+import { SidebarInset, SidebarProvider } from '@/shared/ui/sidebar'
+import { Outlet } from 'react-router'
 
 /**
  * Application shell component that provides the main layout structure.
  *
- * Comprises a fixed header (with app title and theme toggle) and a scrollable
- * main content area. Only the content area scrolls while the header remains fixed.
+ * This layout component serves as the root wrapper for all routes in the application.
+ * It comprises three main sections:
+ * - **Sidebar**: Navigation menu for route switching
+ * - **AppBar**: Fixed header containing app title, theme toggle, and settings link
+ * - **Main Content**: Scrollable area where page content is rendered via the Outlet
  *
- * @returns The application layout component.
+ * @returns A layout component with sidebar navigation and app bar
+ *
+ * @example
+ * ```tsx
+ * // Used in route configuration
+ * const routes = [
+ *   {
+ *     path: '/',
+ *     element: <AppLayout />,
+ *     children: [
+ *       { path: '/', element: <HomePage /> },
+ *       { path: '/settings', element: <SettingsPage /> }
+ *     ]
+ *   }
+ * ]
+ * ```
  */
 export function AppLayout() {
   return (
-    <div className="flex h-screen flex-col">
-      <header className="flex items-center justify-between border-b bg-background px-6 py-3">
-        <h1 className="text-lg font-bold tracking-tight">
-          <Link to="/">App</Link>
-        </h1>
-        <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" asChild>
-            <Link to="/settings">
-              <Settings className="h-5 w-5" />
-            </Link>
-          </Button>
-          <ThemeToggle />
+    <SidebarProvider defaultOpen={true} className="h-svh">
+      <AppSidebar />
+      <SidebarInset>
+        <div className="flex h-full w-full flex-col">
+          <AppBar />
+          <ScrollArea className="min-h-0 flex-1 p-3">
+            <Outlet />
+          </ScrollArea>
         </div>
-      </header>
-      <ScrollArea className="flex-1">
-        <main className="px-6 py-6">
-          <Outlet />
-        </main>
-      </ScrollArea>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

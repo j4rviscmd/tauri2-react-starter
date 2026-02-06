@@ -1,43 +1,32 @@
-import { useNavigate } from 'react-router'
-
 import { useTheme } from '@/app/providers/ThemeProvider'
 import { useGetAppInfoQuery } from '@/features/appInfo/api/appInfoApi'
 import { CounterCard } from '@/features/counter/ui/CounterCard'
-import { AnimatedGradientText } from '@/shared/ui/animated-gradient-text'
-import { Button } from '@/shared/ui/button'
-import { ThemeToggle } from '@/shared/ui/ThemeToggle'
 
 /**
  * Settings page component.
  *
- * Displays application information (name, version), theme toggle,
- * counter example, and navigation back to the home page.
+ * Displays application information (name, version) retrieved from Tauri backend,
+ * current theme state, and a counter example component.
+ *
+ * Features:
+ * - Fetches app metadata via RTK Query (name, version from Tauri)
+ * - Displays current active theme from ThemeProvider context
+ * - Shows loading and error states for app info
+ * - Includes counter card for demonstration purposes
+ *
+ * @returns A settings page component with app information table
  */
 export function SettingsPage() {
-  const navigate = useNavigate()
   const { data, isLoading, isError } = useGetAppInfoQuery()
   const { theme } = useTheme()
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4">
       <div className="text-3xl">Tauri 2 + React Starter</div>
-      <div className="text-xl">Settings Page</div>
 
-      <Button type="button" variant="outline" onClick={() => navigate('/')}>
-        <AnimatedGradientText speed={1.2}>Back to Home</AnimatedGradientText>
-      </Button>
+      <CounterCard title="Counter" />
 
-      <CounterCard title="Counter (Redux shared state)" />
-
-      <div className="flex items-center gap-3">
-        <h2>Theme</h2>
-        <ThemeToggle />
-      </div>
-
-      {isLoading && <p>now loading...</p>}
-      {isError && <p>failed to load</p>}
-
-      {data && (
+      {data ? (
         <table className="border border-primary/50">
           <tbody>
             <tr className="border border-primary/50">
@@ -54,7 +43,11 @@ export function SettingsPage() {
             </tr>
           </tbody>
         </table>
-      )}
+      ) : isLoading ? (
+        <p>now loading...</p>
+      ) : isError ? (
+        <p>failed to load</p>
+      ) : null}
     </div>
   )
 }
