@@ -12,6 +12,7 @@ interface HistoryState {
 type HistoryAction =
   | { type: 'PUSH'; location: Location }
   | { type: 'POP'; newIndex: number; location: Location }
+  | { type: 'INIT'; location: Location }
 
 /**
  * Navigation buttons component for back/forward history navigation.
@@ -31,10 +32,15 @@ export function NavigationButtons() {
   const navigate = useNavigate()
   const location = useLocation()
   const isFirstRender = useRef(true)
+  const initialLocationRef = useRef(location)
 
   const [state, dispatch] = useReducer(
     (state: HistoryState, action: HistoryAction) => {
       switch (action.type) {
+        case 'INIT': {
+          // Initialize with the very first location
+          return { history: [action.location], currentIndex: 0 }
+        }
         case 'PUSH': {
           // Remove any forward history when navigating to a new location
           const newHistory = state.history.slice(0, state.currentIndex + 1)
@@ -56,14 +62,14 @@ export function NavigationButtons() {
           return state
       }
     },
-    { history: [location], currentIndex: 0 },
+    { history: [], currentIndex: -1 }, // Start with empty history
   )
 
-  // Update history when location changes
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Only track location changes
+  // Initialize with the first location on mount
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only run once on mount
   useEffect(() => {
-    // Skip initial render - the initial location is already in state
     if (isFirstRender.current) {
+      dispatch({ type: 'INIT', location: initialLocationRef.current })
       isFirstRender.current = false
       return
     }
