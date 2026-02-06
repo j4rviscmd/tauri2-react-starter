@@ -3,7 +3,8 @@ import { CounterCard } from '@/features/counter/ui/CounterCard'
 /**
  * Home page component.
  *
- * Displays the application title and a counter example.
+ * Displays the application title and a counter example component.
+ * Serves as the main landing page for the application.
  */
 export function HomePage() {
   return (
