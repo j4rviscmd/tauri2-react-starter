@@ -1,6 +1,6 @@
 import { AppBar, AppSidebar } from '@/shared/ui/AppBar'
 import { ScrollArea } from '@/shared/ui/scroll-area'
-import { SidebarInset, SidebarProvider } from '@/shared/ui/sidebar'
+import { SidebarInset, SidebarProvider } from '@/shared/ui/animate-ui/components/radix/sidebar'
 import { Outlet } from 'react-router'
 
 /**

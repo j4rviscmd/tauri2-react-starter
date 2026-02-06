@@ -2,7 +2,7 @@ import { ToggleThemeButton } from '@/features/preference'
 import { Button } from '@/shared/ui/button'
 import { SettingsIcon } from '@/shared/ui/icons/SettingsIcon'
 import { Separator } from '@/shared/ui/separator'
-import { SidebarTrigger } from '@/shared/ui/sidebar'
+import { SidebarTrigger } from '@/shared/ui/animate-ui/components/radix/sidebar'
 import { Link } from 'react-router'
 import { NavigationButtons } from './NavigationButtons'
 

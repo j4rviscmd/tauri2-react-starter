@@ -26,14 +26,6 @@ export default function AnimateUiSidebarPage() {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Label 1</SidebarGroupLabel>
-            <SidebarMenu>
-              <SidebarMenuItem>Item 1</SidebarMenuItem>
-              <SidebarMenuItem>Item 2</SidebarMenuItem>
-              <SidebarMenuItem>Item 3</SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroup>
-          <SidebarGroup>
             <SidebarGroupLabel>Label 2</SidebarGroupLabel>
             <SidebarMenu>
               <SidebarMenuItem>Item 1</SidebarMenuItem>

@@ -1,4 +1,4 @@
-import { Frame, Home, Settings } from 'lucide-react'
+import { Home, Settings } from 'lucide-react'
 import { Link, useLocation } from 'react-router'
 
 import {
@@ -10,7 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/shared/ui/sidebar'
+} from '@/shared/ui/animate-ui/components/radix/sidebar'
 
 /**
  * Application sidebar navigation component.
@@ -31,11 +31,6 @@ export function AppSidebar() {
       title: 'Home',
       url: '/',
       icon: Home,
-    },
-    {
-      title: 'Animate UI Sidebar',
-      url: '/animate-ui-sidebar',
-      icon: Frame,
     },
     {
       title: 'Settings',
