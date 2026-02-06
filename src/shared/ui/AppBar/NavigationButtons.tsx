@@ -11,7 +11,7 @@ interface HistoryState {
 
 type HistoryAction =
   | { type: 'PUSH'; location: Location }
-  | { type: 'POP'; newIndex: number; location: Location }
+  | { type: 'NAVIGATE'; index: number }
   | { type: 'INIT'; location: Location }
 
 // Module-scope flag to handle React 18+ Strict Mode double-mounting
@@ -52,12 +52,11 @@ export function NavigationButtons() {
             currentIndex: newHistory.length - 1,
           }
         }
-        case 'POP': {
-          const newHistory = [...state.history]
-          newHistory[action.newIndex] = action.location
+        case 'NAVIGATE': {
+          // Simply change the current index (for back/forward)
           return {
-            history: newHistory,
-            currentIndex: action.newIndex,
+            ...state,
+            currentIndex: action.index,
           }
         }
         default:
@@ -114,8 +113,10 @@ export function NavigationButtons() {
   const handleBack = () => {
     if (canGoBack) {
       const newIndex = currentIndex - 1
-      dispatch({ type: 'POP', newIndex, location })
-      navigate(history[newIndex].pathname, {
+      const targetLocation = history[newIndex]
+      // Update index before navigation
+      dispatch({ type: 'NAVIGATE', index: newIndex })
+      navigate(targetLocation.pathname, {
         state: { navigationType: 'POP' },
       })
     }
@@ -124,8 +125,10 @@ export function NavigationButtons() {
   const handleForward = () => {
     if (canGoForward) {
       const newIndex = currentIndex + 1
-      dispatch({ type: 'POP', newIndex, location })
-      navigate(history[newIndex].pathname, {
+      const targetLocation = history[newIndex]
+      // Update index before navigation
+      dispatch({ type: 'NAVIGATE', index: newIndex })
+      navigate(targetLocation.pathname, {
         state: { navigationType: 'POP' },
       })
     }
