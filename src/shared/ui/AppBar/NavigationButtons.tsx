@@ -1,13 +1,26 @@
 import { Button } from '@/shared/ui/button'
 import { Separator } from '@/shared/ui/separator'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useNavigate } from 'react-router'
+import { useEffect, useReducer } from 'react'
+import { type Location, useLocation, useNavigate } from 'react-router'
+
+interface HistoryState {
+  history: Location[]
+  currentIndex: number
+}
+
+type HistoryAction =
+  | { type: 'PUSH'; location: Location }
+  | { type: 'POP'; newIndex: number; location: Location }
 
 /**
  * Navigation buttons component for back/forward history navigation.
  *
  * Displays back and forward buttons similar to browser navigation.
  * Buttons are disabled when there is no history to navigate.
+ *
+ * Implements custom history tracking since React Router v7 doesn't provide
+ * direct access to the history stack.
  *
  * @example
  * ```tsx
@@ -16,18 +29,70 @@ import { useNavigate } from 'react-router'
  */
 export function NavigationButtons() {
   const navigate = useNavigate()
+  const location = useLocation()
 
-  // Note: React Router v7's useNavigate doesn't provide direct access to history stack.
-  // We use a simple heuristic: navigate(-1) always works for back, but forward
-  // requires custom history tracking. For now, forward is always disabled.
-  // TODO: Implement custom history stack for forward navigation support.
+  const [state, dispatch] = useReducer(
+    (state: HistoryState, action: HistoryAction) => {
+      switch (action.type) {
+        case 'PUSH': {
+          // Remove any forward history when navigating to a new location
+          const newHistory = state.history.slice(0, state.currentIndex + 1)
+          newHistory.push(action.location)
+          return {
+            history: newHistory,
+            currentIndex: newHistory.length - 1,
+          }
+        }
+        case 'POP': {
+          const newHistory = [...state.history]
+          newHistory[action.newIndex] = action.location
+          return {
+            history: newHistory,
+            currentIndex: action.newIndex,
+          }
+        }
+        default:
+          return state
+      }
+    },
+    { history: [location], currentIndex: 0 },
+  )
+
+  // Update history when location changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only track location changes
+  useEffect(() => {
+    // Check if navigation was caused by back/forward (POP action)
+    const isPopNavigation = location.state?.navigationType === 'POP'
+
+    if (!isPopNavigation) {
+      // For PUSH/REPLACE navigation, add to history
+      dispatch({ type: 'PUSH', location })
+    }
+    // Note: POP navigation is handled in handleBack/handleForward
+  }, [location])
+
+  const { history, currentIndex } = state
+  const canGoBack = currentIndex > 0
+  const canGoForward = currentIndex < history.length - 1
 
   const handleBack = () => {
-    navigate(-1)
+    if (canGoBack) {
+      const newIndex = currentIndex - 1
+      dispatch({ type: 'POP', newIndex, location })
+      navigate(history[newIndex].pathname, {
+        state: { navigationType: 'POP' },
+      })
+    }
   }
 
   const handleForward = () => {
-    navigate(1)
+    if (canGoForward) {
+      const newIndex = currentIndex + 1
+      dispatch({ type: 'POP', newIndex, location })
+      navigate(history[newIndex].pathname, {
+        state: { navigationType: 'POP' },
+      })
+    }
   }
 
   return (
@@ -37,6 +102,7 @@ export function NavigationButtons() {
           variant="ghost"
           size="icon"
           className="size-7"
+          disabled={!canGoBack}
           onClick={handleBack}
           aria-label="Go back"
         >
@@ -47,7 +113,7 @@ export function NavigationButtons() {
           variant="ghost"
           size="icon"
           className="size-7"
-          disabled
+          disabled={!canGoForward}
           onClick={handleForward}
           aria-label="Go forward"
         >
