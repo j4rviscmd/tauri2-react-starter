@@ -1,28 +1,15 @@
-import { useNavigate } from 'react-router'
-
 import { CounterCard } from '@/features/counter/ui/CounterCard'
-import { AnimatedGradientText } from '@/shared/ui/animated-gradient-text'
-import { Button } from '@/shared/ui/button'
 
 /**
  * Home page component.
  *
- * Displays the application title, a counter example, and navigation
- * to the settings page.
+ * Displays the application title and a counter example.
  */
 export function HomePage() {
-  const navigate = useNavigate()
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4 p-4">
       <div className="text-3xl">Tauri 2 + React Starter</div>
-      <div className="text-xl">Home Page</div>
-
-      <CounterCard title="Counter (Redux shared state)" />
-
-      <Button type="button" onClick={() => navigate('/settings')}>
-        <AnimatedGradientText speed={1.2}>Open Settings</AnimatedGradientText>
-      </Button>
+      <CounterCard title="Counter" />
     </div>
   )
 }
