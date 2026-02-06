@@ -1,15 +1,19 @@
-import { Home, Settings } from 'lucide-react'
+import { Home } from 'lucide-react'
 import { Link, useLocation } from 'react-router'
+import { SettingsIcon } from '@/shared/ui/icons/SettingsIcon'
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
+  SidebarTrigger,
 } from '@/shared/ui/animate-ui/components/radix/sidebar'
 
 /**
@@ -17,6 +21,7 @@ import {
  *
  * Displays navigation menu items for Home and Settings pages.
  * Active route is highlighted automatically.
+ * Sidebar trigger button is positioned at the top of the sidebar.
  *
  * @example
  * ```tsx
@@ -32,16 +37,16 @@ export function AppSidebar() {
       url: '/',
       icon: Home,
     },
-    {
-      title: 'Settings',
-      url: '/settings',
-      icon: Settings,
-    },
   ]
 
   return (
-    <Sidebar>
-      <SidebarHeader>{/* App title can be added here later */}</SidebarHeader>
+    <Sidebar collapsible="icon">
+      <SidebarHeader>
+        <div className="flex items-center gap-1">
+          <SidebarTrigger />
+          {/* App title can be added here later */}
+        </div>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
@@ -64,6 +69,19 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild tooltip="Settings">
+              <Link to="/settings">
+                <SettingsIcon />
+                <span>Settings</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   )
 }

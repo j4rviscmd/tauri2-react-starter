@@ -8,7 +8,7 @@ import { Outlet } from 'react-router'
  *
  * This layout component serves as the root wrapper for all routes in the application.
  * It comprises three main sections:
- * - **Sidebar**: Navigation menu for route switching
+ * - **Sidebar**: Navigation menu for route switching (always visible in icon mode on mobile)
  * - **AppBar**: Fixed header containing app title, theme toggle, and settings link
  * - **Main Content**: Scrollable area where page content is rendered via the Outlet
  *
