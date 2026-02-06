@@ -34,9 +34,8 @@ export function AppBar() {
         <Link to="/" className="text-muted-foreground hover:text-foreground">
           App
         </Link>
+        <NavigationButtons />
       </div>
-
-      <NavigationButtons />
 
       <div className="flex items-center">
         <ToggleThemeButton />
