@@ -155,7 +155,8 @@ jobs:
   ci-status:
     name: CI status check
     runs-on: ubuntu-latest
-    needs: [format, lint, frontend-build, test, rust-check, rust-clippy, rust-format]
+    needs:
+      [format, lint, frontend-build, test, rust-check, rust-clippy, rust-format]
     if: always()
     steps:
       - name: Some checks failed
