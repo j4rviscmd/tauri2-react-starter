@@ -1,7 +1,7 @@
 import { Button } from '@/shared/ui/button'
 import { Separator } from '@/shared/ui/separator'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useEffect, useReducer, useRef } from 'react'
+import { useEffect, useReducer } from 'react'
 import { type Location, useLocation, useNavigate } from 'react-router'
 
 interface HistoryState {
@@ -66,28 +66,16 @@ export function NavigationButtons() {
     { history: [], currentIndex: -1 }, // Start with empty history
   )
 
-  // Track if this component instance has been initialized
-  const initializedRef = useRef(false)
-
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only track location changes
   useEffect(() => {
-    // Initialize only once per app session (not per component instance)
+    // Initialize only once per app session (handles Strict Mode double-mounting)
     if (!isInitialized) {
       dispatch({ type: 'INIT', location })
       isInitialized = true
-      initializedRef.current = true
       return
     }
 
-    // Skip if this instance was already initialized (handles Strict Mode remounting)
-    if (initializedRef.current) {
-      return
-    }
-
-    // Mark this instance as initialized
-    initializedRef.current = true
-
-    // Check if navigation was caused by back/forward (POP action)
+    // After initialization, track location changes for history
     const isPopNavigation = location.state?.navigationType === 'POP'
 
     if (!isPopNavigation) {
