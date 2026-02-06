@@ -19,7 +19,7 @@ export function AppLayout() {
         <div className="flex h-full w-full flex-col">
           <AppBar />
           <ScrollArea className="flex-1 min-h-0">
-            <main className="px-6 py-6">
+            <main className="bg-blue-500">
               <Outlet />
             </main>
           </ScrollArea>
