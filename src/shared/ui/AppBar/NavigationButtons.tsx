@@ -1,7 +1,7 @@
 import { Button } from '@/shared/ui/button'
 import { Separator } from '@/shared/ui/separator'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 import { type Location, useLocation, useNavigate } from 'react-router'
 
 interface HistoryState {
@@ -30,6 +30,7 @@ type HistoryAction =
 export function NavigationButtons() {
   const navigate = useNavigate()
   const location = useLocation()
+  const isFirstRender = useRef(true)
 
   const [state, dispatch] = useReducer(
     (state: HistoryState, action: HistoryAction) => {
@@ -61,6 +62,12 @@ export function NavigationButtons() {
   // Update history when location changes
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only track location changes
   useEffect(() => {
+    // Skip initial render - the initial location is already in state
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+
     // Check if navigation was caused by back/forward (POP action)
     const isPopNavigation = location.state?.navigationType === 'POP'
 
