@@ -18,8 +18,8 @@ export function AppLayout() {
       <SidebarInset>
         <div className="flex h-full w-full flex-col">
           <AppBar />
-          <ScrollArea className="flex-1 min-h-0">
-            <main className="bg-blue-500">
+          <ScrollArea className="flex-1 min-h-0 p-3">
+            <main >
               <Outlet />
             </main>
           </ScrollArea>
