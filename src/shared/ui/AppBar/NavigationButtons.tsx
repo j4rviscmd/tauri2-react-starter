@@ -1,7 +1,7 @@
 import { Button } from '@/shared/ui/button'
 import { Separator } from '@/shared/ui/separator'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 import { type Location, useLocation, useNavigate } from 'react-router'
 
 interface HistoryState {
@@ -16,6 +16,7 @@ type HistoryAction =
 
 // Module-scope flag to handle React 18+ Strict Mode double-mounting
 let isInitialized = false
+let initialLocation: Location | null = null
 
 /**
  * Navigation buttons component for back/forward history navigation.
@@ -66,12 +67,31 @@ export function NavigationButtons() {
     { history: [], currentIndex: -1 }, // Start with empty history
   )
 
+  // Track previous location to detect actual changes
+  const prevLocationRef = useRef(location)
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only track location changes
   useEffect(() => {
     // Initialize only once per app session (handles Strict Mode double-mounting)
     if (!isInitialized) {
       dispatch({ type: 'INIT', location })
       isInitialized = true
+      initialLocation = location
+      prevLocationRef.current = location
+      return
+    }
+
+    // Skip if location hasn't actually changed
+    if (location === prevLocationRef.current) {
+      return
+    }
+
+    // Skip if it's the same as initial location (handles location updates on mount)
+    if (
+      location.pathname === initialLocation?.pathname &&
+      location.key === initialLocation?.key
+    ) {
+      prevLocationRef.current = location
       return
     }
 
@@ -82,6 +102,8 @@ export function NavigationButtons() {
       // For PUSH/REPLACE navigation, add to history
       dispatch({ type: 'PUSH', location })
     }
+
+    prevLocationRef.current = location
     // Note: POP navigation is handled in handleBack/handleForward
   }, [location])
 
