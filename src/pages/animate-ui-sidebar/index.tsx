@@ -16,7 +16,7 @@ import {
 export default function AnimateUiSidebarPage() {
   return (
     <SidebarProvider>
-      <Sidebar>
+      <Sidebar collapsible="icon">
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>Item 1</SidebarMenuItem>
