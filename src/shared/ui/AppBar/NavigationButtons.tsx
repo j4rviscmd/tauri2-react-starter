@@ -14,6 +14,9 @@ type HistoryAction =
   | { type: 'POP'; newIndex: number; location: Location }
   | { type: 'INIT'; location: Location }
 
+// Module-scope flag to handle React 18+ Strict Mode double-mounting
+let isInitialized = false
+
 /**
  * Navigation buttons component for back/forward history navigation.
  *
@@ -31,8 +34,6 @@ type HistoryAction =
 export function NavigationButtons() {
   const navigate = useNavigate()
   const location = useLocation()
-  const isFirstRender = useRef(true)
-  const initialLocationRef = useRef(location)
 
   const [state, dispatch] = useReducer(
     (state: HistoryState, action: HistoryAction) => {
@@ -65,14 +66,26 @@ export function NavigationButtons() {
     { history: [], currentIndex: -1 }, // Start with empty history
   )
 
-  // Initialize with the first location on mount
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Only run once on mount
+  // Track if this component instance has been initialized
+  const initializedRef = useRef(false)
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only track location changes
   useEffect(() => {
-    if (isFirstRender.current) {
-      dispatch({ type: 'INIT', location: initialLocationRef.current })
-      isFirstRender.current = false
+    // Initialize only once per app session (not per component instance)
+    if (!isInitialized) {
+      dispatch({ type: 'INIT', location })
+      isInitialized = true
+      initializedRef.current = true
       return
     }
+
+    // Skip if this instance was already initialized (handles Strict Mode remounting)
+    if (initializedRef.current) {
+      return
+    }
+
+    // Mark this instance as initialized
+    initializedRef.current = true
 
     // Check if navigation was caused by back/forward (POP action)
     const isPopNavigation = location.state?.navigationType === 'POP'
