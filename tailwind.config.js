@@ -1,4 +1,16 @@
-/** @type {import('tailwindcss').Config} */
+/**
+ * Tailwind CSS configuration for the application.
+ *
+ * Features:
+ * - Class-based dark mode strategy
+ * - shadcn/ui theming system with CSS variables
+ * - Sidebar-specific easing functions for smooth animations
+ * - Extended color palette including semantic colors
+ *
+ * @see https://tailwindcss.com/docs/configuration
+ *
+ * @type {import('tailwindcss').Config}
+ */
 export default {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -10,7 +22,7 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       easing: {
-        'sidebar': 'cubic-bezier(0.7,-0.15,0.25,1.15)',
+        sidebar: 'cubic-bezier(0.7,-0.15,0.25,1.15)',
         'sidebar-container': 'cubic-bezier(0.75,0,0.25,1)',
       },
       colors: {
