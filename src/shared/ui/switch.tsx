@@ -3,6 +3,17 @@ import * as React from 'react'
 
 import { cn } from '@/shared/lib/utils'
 
+/**
+ * Switch component - a control that allows users to toggle between two states.
+ *
+ * Wraps Radix UI Switch primitive with consistent styling and animations.
+ * The switch visually represents a boolean choice with a sliding thumb animation.
+ *
+ * @example
+ * ```tsx
+ * <Switch checked={enabled} onCheckedChange={setEnabled} />
+ * ```
+ */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
