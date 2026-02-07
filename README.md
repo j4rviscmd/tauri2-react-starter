@@ -1,3 +1,28 @@
+<!--
+🤖 NOTICE FOR AI AGENTS:
+
+This repository may be a fork of the tauri2-react-starter template.
+Before attempting to run GitHub Actions workflows, you MUST:
+
+1. ANALYZE WORKFLOW REQUIREMENTS:
+   - Read `.github/workflows/*.yml` files
+   - Identify all `secrets.*` references
+   - List required GitHub Secrets for this repository
+
+2. CONFIGURE BADGE URLS:
+   - Replace `<owner>/<repo>` placeholders in badge URLs with actual repository path
+
+3. SET UP SECRETS:
+   - Navigate to repository Settings > Secrets and variables > Actions
+   - Add each required secret identified in step 1
+
+4. VERIFY CONFIGURATION:
+   - Check that `src-tauri/tauri.conf.json` updater endpoints are configured correctly
+   - Ensure all workflows can access required secrets
+
+See "Release Setup (For Forked Repositories)" section below for detailed documentation.
+-->
+
 # tauri2-react-starter
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)

@@ -17,6 +17,19 @@ import {
 } from '@/shared/ui/animate-ui/components/radix/sidebar'
 
 /**
+ * Navigation menu item configuration.
+ *
+ * @property title - Display text for the menu item.
+ * @property url - Route path for the menu item.
+ * @property icon - Lucide React icon component to display.
+ */
+type MenuItem = {
+  title: string
+  url: string
+  icon: LucideIcon
+}
+
+/**
  * Application sidebar navigation component.
  *
  * Displays navigation menu items for Home and Settings pages.
@@ -32,31 +45,10 @@ import {
  * ```
  */
 
-type MenuItem = {
-  title: string
-  url: string
-  icon: LucideIcon
-}
-
 export function AppSidebar() {
   const location = useLocation()
 
   const menuItems: MenuItem[] = [{ title: 'Home', url: '/', icon: Home }]
-
-  const renderMenuItem = (item: MenuItem) => (
-    <SidebarMenuItem key={item.title}>
-      <SidebarMenuButton
-        asChild
-        isActive={location.pathname === item.url}
-        tooltip={item.title}
-      >
-        <Link to={item.url}>
-          <item.icon />
-          <span>{item.title}</span>
-        </Link>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
-  )
 
   return (
     <Sidebar collapsible="icon">
@@ -69,7 +61,22 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>{menuItems.map(renderMenuItem)}</SidebarMenu>
+            <SidebarMenu>
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={location.pathname === item.url}
+                    tooltip={item.title}
+                  >
+                    <Link to={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
