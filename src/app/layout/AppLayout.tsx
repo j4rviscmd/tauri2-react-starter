@@ -40,18 +40,12 @@ export function AppLayout() {
   const isMobile = useIsMobile()
   const [open, setOpen] = React.useState(!isMobile)
 
-  // Automatically collapse/expand sidebar when screen size changes
   React.useEffect(() => {
     setOpen(!isMobile)
   }, [isMobile])
 
   return (
-    <SidebarProvider
-      defaultOpen={true}
-      open={open}
-      onOpenChange={setOpen}
-      className="h-svh"
-    >
+    <SidebarProvider open={open} onOpenChange={setOpen} className="h-svh">
       <AppSidebar />
       <SidebarInset>
         <div className="flex h-full w-full flex-col">

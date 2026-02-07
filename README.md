@@ -5,6 +5,15 @@
 ![React + Vite + TS](https://img.shields.io/badge/React%20%2B%20Vite-TypeScript-2ea44f)
 [![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<owner>/<repo>/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/<owner>/<repo>?label=release)](https://github.com/<owner>/<repo>/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/<owner>/<repo>/total?style=flat-square)](https://github.com/<owner>/<repo>/releases)
+
+<!--
+  NOTE FOR TEMPLATE USERS:
+  After cloning this template, replace <owner> and <repo> placeholders in:
+  - Badge URLs above (CI, Release, Downloads)
+  - GitHub Actions workflow files
+  - Tauri configuration files (src-tauri/tauri.conf.json)
+-->
 
 ## Directory Structure (Co-location)
 

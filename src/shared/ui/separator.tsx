@@ -3,6 +3,24 @@ import * as React from 'react'
 
 import { cn } from '@/shared/lib/utils'
 
+/**
+ * Visual separator/divider component.
+ *
+ * Renders as a horizontal or vertical line for visual grouping.
+ * By default, renders as decorative (not announced by screen readers).
+ *
+ * @example
+ * ```tsx
+ * // Horizontal divider
+ * <Separator />
+ *
+ * // Vertical divider
+ * <Separator orientation="vertical" className="h-8" />
+ *
+ * // Semantic divider (announced by screen readers)
+ * <Separator decorative={false} />
+ * ```
+ */
 const Separator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>

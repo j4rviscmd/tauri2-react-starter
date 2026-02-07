@@ -40,10 +40,7 @@ export function AppBar() {
         />
         <NavigationButtons />
       </div>
-
-      <div className="flex items-center">
-        <ToggleThemeButton />
-      </div>
+      <ToggleThemeButton />
     </div>
   )
 }

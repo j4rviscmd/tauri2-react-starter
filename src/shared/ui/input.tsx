@@ -2,6 +2,28 @@ import * as React from 'react'
 
 import { cn } from '@/shared/lib/utils'
 
+/**
+ * Styled input component with consistent theming.
+ *
+ * A wrapper around the native `<input>` element with pre-configured styling
+ * for focus rings, disabled states, file inputs, and responsive text sizing.
+ *
+ * @example
+ * ```tsx
+ * // Text input
+ * <Input placeholder="Enter your name" />
+ *
+ * // With type
+ * <Input type="email" placeholder="Email" />
+ * <Input type="password" placeholder="Password" />
+ *
+ * // Controlled input
+ * <Input value={value} onChange={(e) => setValue(e.target.value)} />
+ *
+ * // Disabled
+ * <Input disabled placeholder="Disabled" />
+ * ```
+ */
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
   ({ className, type, ...props }, ref) => {
     return (
