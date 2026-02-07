@@ -35,7 +35,7 @@ Breadcrumb.displayName = 'Breadcrumb'
  * Renders the breadcrumb items in a horizontal flex layout with responsive gaps.
  */
 const BreadcrumbList = React.forwardRef<
-  HTMLOlistElement,
+  HTMLOListElement,
   React.ComponentPropsWithoutRef<'ol'>
 >(({ className, ...props }, ref) => (
   <ol
