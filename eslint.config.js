@@ -13,7 +13,6 @@ export default defineConfig([
     files: ['**/*.{ts,tsx}'],
     ignores: [
       '**/src/shared/ui/animate-ui/**',
-      '**/src/shared/ui/sidebar-animated.tsx',
     ],
     extends: [
       js.configs.recommended,
