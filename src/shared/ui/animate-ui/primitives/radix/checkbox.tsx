@@ -7,6 +7,12 @@ import * as React from 'react'
 import { useControlledState } from '@/shared/hooks/use-controlled-state'
 import { getStrictContext } from '@/shared/lib/get-strict-context'
 
+/**
+ * Context type for checkbox state.
+ *
+ * @property isChecked - Current checked state (true, false, or 'indeterminate').
+ * @property setIsChecked - Function to update the checked state.
+ */
 type CheckboxContextType = {
   isChecked: boolean | 'indeterminate'
   setIsChecked: (checked: boolean | 'indeterminate') => void
@@ -15,9 +21,39 @@ type CheckboxContextType = {
 const [CheckboxProvider, useCheckbox] =
   getStrictContext<CheckboxContextType>('CheckboxContext')
 
+/**
+ * Props for the animated checkbox component.
+ *
+ * Combines Framer Motion button props with Radix UI checkbox props,
+ * excluding the asChild prop which is handled internally.
+ */
 type CheckboxProps = HTMLMotionProps<'button'> &
   Omit<React.ComponentProps<typeof CheckboxRoot>, 'asChild'>
 
+/**
+ * Animated checkbox component with Framer Motion integration.
+ *
+ * Wraps Radix UI's Checkbox with Motion animations for tap and hover states.
+ * Supports controlled and uncontrolled modes via useControlledState.
+ * Provides checked state context to child components like CheckboxIndicator.
+ *
+ * @param defaultChecked - Initial checked state for uncontrolled mode.
+ * @param checked - Controlled checked state.
+ * @param onCheckedChange - Callback when checked state changes.
+ * @param disabled - Whether the checkbox is disabled.
+ * @param required - Whether the checkbox is required for form submission.
+ * @param name - Form field name.
+ * @param value - Form field value.
+ * @param props - Additional Motion animation props.
+ * @returns An animated checkbox button element.
+ *
+ * @example
+ * ```tsx
+ * <Checkbox checked={isChecked} onCheckedChange={setIsChecked}>
+ *   <CheckboxIndicator />
+ * </Checkbox>
+ * ```
+ */
 function Checkbox({
   defaultChecked,
   checked,
@@ -57,8 +93,28 @@ function Checkbox({
   )
 }
 
+/**
+ * Props for the checkbox indicator SVG.
+ */
 type CheckboxIndicatorProps = SVGMotionProps<SVGSVGElement>
 
+/**
+ * Visual indicator component for checkbox state.
+ *
+ * Renders an SVG checkmark or indeterminate dash with animated path drawing.
+ * Uses Framer Motion to animate the path length for a drawing effect.
+ * Automatically switches between checkmark and indeterminate states based on context.
+ *
+ * @param props - Additional Motion animation props for the SVG.
+ * @returns An animated SVG indicator element.
+ *
+ * @example
+ * ```tsx
+ * <Checkbox>
+ *   <CheckboxIndicator />
+ * </Checkbox>
+ * ```
+ */
 function CheckboxIndicator(props: CheckboxIndicatorProps) {
   const { isChecked } = useCheckbox()
 

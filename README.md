@@ -32,6 +32,12 @@ See "Release Setup (For Forked Repositories)" section below for detailed documen
 [![Release](https://img.shields.io/github/v/release/<owner>/<repo>?label=release)](https://github.com/<owner>/<repo>/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/<owner>/<repo>/total?style=flat-square)](https://github.com/<owner>/<repo>/releases)
 
+## Star this repo to keep me motivated ⭐
+
+I build this in my spare time. Every star shows that my work is valued and keeps me going!
+
+![Star](docs/images/star-github.gif)
+
 <!--
   NOTE FOR TEMPLATE USERS:
   After cloning this template, replace <owner> and <repo> placeholders in:
