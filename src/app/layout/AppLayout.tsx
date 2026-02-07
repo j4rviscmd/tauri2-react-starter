@@ -1,9 +1,12 @@
-import * as React from 'react'
+import { useIsMobile } from '@/shared/hooks/use-mobile'
+import {
+  SidebarInset,
+  SidebarProvider,
+} from '@/shared/ui/animate-ui/components/radix/sidebar'
 import { AppBar, AppSidebar } from '@/shared/ui/AppBar'
 import { ScrollArea } from '@/shared/ui/scroll-area'
-import { SidebarInset, SidebarProvider } from '@/shared/ui/animate-ui/components/radix/sidebar'
+import * as React from 'react'
 import { Outlet } from 'react-router'
-import { useIsMobile } from '@/shared/hooks/use-mobile'
 
 /**
  * Application shell component that provides the main layout structure.
@@ -43,7 +46,12 @@ export function AppLayout() {
   }, [isMobile])
 
   return (
-    <SidebarProvider defaultOpen={true} open={open} onOpenChange={setOpen} className="h-svh">
+    <SidebarProvider
+      defaultOpen={true}
+      open={open}
+      onOpenChange={setOpen}
+      className="h-svh"
+    >
       <AppSidebar />
       <SidebarInset>
         <div className="flex h-full w-full flex-col">

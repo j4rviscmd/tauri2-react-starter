@@ -184,7 +184,7 @@ function Sidebar({
         <div
           data-slot="sidebar"
           className={cn(
-            'w-[var(--sidebar-width)] flex h-full flex-col bg-sidebar text-sidebar-foreground',
+            'flex h-full w-[var(--sidebar-width)] flex-col bg-sidebar text-sidebar-foreground',
             className,
           )}
           {...props}
@@ -195,7 +195,8 @@ function Sidebar({
     )
   }
 
-  if (false) {  // Disable mobile sheet mode, always use desktop sidebar
+  if (false) {
+    // Disable mobile sheet mode, always use desktop sidebar
     return (
       <Sheet open={false} onOpenChange={() => {}} {...props}>
         <SheetContent
@@ -231,7 +232,7 @@ function Sidebar({
 
   return (
     <div
-      className="group peer text-sidebar-foreground block flex-shrink-0"
+      className="group peer block flex-shrink-0 text-sidebar-foreground"
       data-state={state}
       data-collapsible={state === 'collapsed' ? collapsible : ''}
       data-variant={variant}
@@ -242,7 +243,7 @@ function Sidebar({
       <div
         data-slot="sidebar-gap"
         className={cn(
-          'w-[var(--sidebar-width)] duration-400 ease-[cubic-bezier(0.7,-0.15,0.25,1.15)] relative bg-transparent transition-[width]',
+          'duration-400 ease-[cubic-bezier(0.7,-0.15,0.25,1.15)] relative w-[var(--sidebar-width)] bg-transparent transition-[width]',
           'group-data-[collapsible=offcanvas]:w-0',
           'group-data-[side=right]:rotate-180',
           variant === 'floating' || variant === 'inset'
@@ -253,7 +254,7 @@ function Sidebar({
       <div
         data-slot="sidebar-container"
         className={cn(
-          'w-[var(--sidebar-width)] duration-400 ease-[cubic-bezier(0.75,0,0.25,1)] fixed inset-y-0 z-10 h-svh transition-[left,right,width] flex',
+          'duration-400 ease-[cubic-bezier(0.75,0,0.25,1)] fixed inset-y-0 z-10 flex h-svh w-[var(--sidebar-width)] transition-[left,right,width]',
           side === 'left'
             ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
             : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',

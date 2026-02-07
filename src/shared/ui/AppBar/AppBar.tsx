@@ -34,7 +34,10 @@ export function AppBar() {
         <Link to="/" className="text-muted-foreground hover:text-foreground">
           App
         </Link>
-        <Separator orientation="vertical" className="h-4 mx-1 dark:bg-white/10" />
+        <Separator
+          orientation="vertical"
+          className="mx-1 h-4 dark:bg-white/10"
+        />
         <NavigationButtons />
       </div>
 

@@ -1,6 +1,6 @@
+import { SettingsIcon } from '@/shared/ui/icons/SettingsIcon'
 import { Home } from 'lucide-react'
 import { Link, useLocation } from 'react-router'
-import { SettingsIcon } from '@/shared/ui/icons/SettingsIcon'
 
 import {
   Sidebar,
