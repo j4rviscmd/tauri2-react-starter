@@ -1,8 +1,18 @@
+/**
+ * Vite configuration for Tauri 2 + React 19 + TypeScript application.
+ *
+ * Features:
+ * - React plugin with Fast Refresh
+ * - Path aliases for clean imports (@/, @/app/*, @/pages/*, @/features/*, @/shared/*)
+ * - Local development server configuration for Tauri integration
+ *
+ * @see https://vite.dev/config/
+ */
+
 import react from '@vitejs/plugin-react'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {

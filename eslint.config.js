@@ -1,3 +1,16 @@
+/**
+ * ESLint flat configuration for Tauri 2 + React 19 + TypeScript project.
+ *
+ * Features:
+ * - TypeScript support via typescript-eslint
+ * - React Hooks rules enforcement
+ * - React Fast Refresh optimization
+ * - Prettier integration
+ * - Animate-ui components excluded from linting
+ *
+ * @see https://eslint.org/docs/latest/use/configure/configuration-files
+ */
+
 import js from '@eslint/js'
 import eslintConfigPrettier from 'eslint-config-prettier'
 import eslintPluginPrettier from 'eslint-plugin-prettier'
