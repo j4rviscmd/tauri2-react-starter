@@ -23,6 +23,9 @@ import {
  * Active route is highlighted automatically.
  * Sidebar trigger button is positioned at the top of the sidebar.
  *
+ * The sidebar state (expanded/collapsed) is controlled by the parent
+ * SidebarProvider based on screen size.
+ *
  * @example
  * ```tsx
  * <AppSidebar />

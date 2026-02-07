@@ -1,4 +1,27 @@
+import * as React from 'react'
+
+const MOBILE_BREAKPOINT = 768
+
 export function useIsMobile() {
-  // Always return false to disable mobile mode and use desktop sidebar on all screen sizes
-  return false
+  const [isMobile, setIsMobile] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+
+    const onChange = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+    }
+
+    // Modern browsers
+    mql.addEventListener('change', onChange)
+
+    // Initial value
+    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+
+    return () => {
+      mql.removeEventListener('change', onChange)
+    }
+  }, [])
+
+  return isMobile
 }

@@ -6,7 +6,6 @@ import { PanelLeftIcon } from 'lucide-react'
 import { type Transition } from 'motion/react'
 import * as React from 'react'
 
-import { useIsMobile } from '@/shared/hooks/use-mobile'
 import { getStrictContext } from '@/shared/lib/get-strict-context'
 import { cn } from '@/shared/lib/utils'
 import {
@@ -66,7 +65,6 @@ function SidebarProvider({
   children,
   ...props
 }: SidebarProviderProps) {
-  const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
 
   // This is the internal state of the sidebar.
@@ -90,8 +88,8 @@ function SidebarProvider({
 
   // Helper to toggle the sidebar.
   const toggleSidebar = React.useCallback(() => {
-    return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
-  }, [isMobile, setOpen, setOpenMobile])
+    return setOpen((open) => !open)
+  }, [setOpen])
 
   // Adds a keyboard shortcut to toggle the sidebar.
   React.useEffect(() => {
@@ -118,12 +116,12 @@ function SidebarProvider({
       state,
       open,
       setOpen,
-      isMobile,
+      isMobile: false,
       openMobile,
       setOpenMobile,
       toggleSidebar,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
+    [state, open, setOpen, openMobile, setOpenMobile, toggleSidebar],
   )
 
   return (
@@ -171,7 +169,7 @@ function Sidebar({
   transition = { type: 'spring', stiffness: 350, damping: 35 },
   ...props
 }: SidebarProps) {
-  const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+  const { state } = useSidebar()
 
   if (collapsible === 'none') {
     return (
@@ -197,9 +195,9 @@ function Sidebar({
     )
   }
 
-  if (isMobile) {
+  if (false) {  // Disable mobile sheet mode, always use desktop sidebar
     return (
-      <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+      <Sheet open={false} onOpenChange={() => {}} {...props}>
         <SheetContent
           data-sidebar="sidebar"
           data-slot="sidebar"
