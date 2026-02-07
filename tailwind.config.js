@@ -9,6 +9,10 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      easing: {
+        'sidebar': 'cubic-bezier(0.7,-0.15,0.25,1.15)',
+        'sidebar-container': 'cubic-bezier(0.75,0,0.25,1)',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
