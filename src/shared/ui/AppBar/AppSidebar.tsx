@@ -43,10 +43,6 @@ export function AppSidebar() {
 
   const menuItems: MenuItem[] = [{ title: 'Home', url: '/', icon: Home }]
 
-  const footerItems: MenuItem[] = [
-    { title: 'Settings', url: '/settings', icon: SettingsIcon },
-  ]
-
   const renderMenuItem = (item: MenuItem) => (
     <SidebarMenuItem key={item.title}>
       <SidebarMenuButton
@@ -78,7 +74,20 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>{footerItems.map(renderMenuItem)}</SidebarMenu>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              isActive={location.pathname === '/settings'}
+              tooltip="Settings"
+            >
+              <Link to="/settings">
+                <SettingsIcon />
+                <span>Settings</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
