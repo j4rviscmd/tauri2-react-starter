@@ -83,6 +83,7 @@ export function NavigationButtons() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only track location changes
   useEffect(() => {
+    // Initialize history on first render
     if (!initialLocationRef.current) {
       initialLocationRef.current = location
       dispatch({ type: 'INIT', location })
@@ -90,8 +91,10 @@ export function NavigationButtons() {
       return
     }
 
+    // Ignore duplicate location updates (React Router may emit same location)
     if (location === prevLocationRef.current) return
 
+    // Ignore updates that return us to the initial location (on mount)
     const initial = initialLocationRef.current
     if (
       location.pathname === initial.pathname &&
@@ -101,6 +104,8 @@ export function NavigationButtons() {
       return
     }
 
+    // Only push to history if this is not a POP navigation (back/forward)
+    // POP navigations are handled by the NAVIGATE action in handleNavigate
     if (location.state?.navigationType !== 'POP') {
       dispatch({ type: 'PUSH', location })
     }
