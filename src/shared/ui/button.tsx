@@ -4,6 +4,12 @@ import * as React from 'react'
 
 import { cn } from '@/shared/lib/utils'
 
+/**
+ * Variant definitions for button styles using class-variance-authority.
+ *
+ * Combines visual variants (default, destructive, outline, secondary, ghost, link)
+ * with size variants (default, sm, lg, icon) to generate Tailwind classes.
+ */
 export const buttonVariants = cva(
   'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   {
@@ -38,9 +44,40 @@ export interface ButtonProps
   extends
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
+  /** When true, renders as the child element instead of a button (useful for Link components). */
   asChild?: boolean
 }
 
+/**
+ * Polymorphic button component with multiple style variants.
+ *
+ * A versatile button component supporting various visual styles and sizes.
+ * Can render as a custom element via asChild for integrations with React Router Link
+ * or other components.
+ *
+ * @example
+ * ```tsx
+ * // Basic usage
+ * <Button>Click me</Button>
+ *
+ * // With variant
+ * <Button variant="destructive">Delete</Button>
+ * <Button variant="outline">Cancel</Button>
+ * <Button variant="ghost">Close</Button>
+ *
+ * // With size
+ * <Button size="sm">Small</Button>
+ * <Button size="lg">Large</Button>
+ *
+ * // Icon-only button
+ * <Button size="icon"><SearchIcon /></Button>
+ *
+ * // As a link (React Router)
+ * <Button asChild>
+ *   <Link to="/dashboard">Dashboard</Link>
+ * </Button>
+ * ```
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button'

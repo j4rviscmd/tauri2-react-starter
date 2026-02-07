@@ -25,25 +25,50 @@ import {
   TooltipTrigger,
 } from '@/shared/ui/tooltip'
 
+/** Cookie name for storing sidebar state persistence. */
 const SIDEBAR_COOKIE_NAME = 'sidebar_state'
+/** Cookie max age in seconds (7 days). */
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
+/** Default sidebar width for desktop. */
 const SIDEBAR_WIDTH = '16rem'
+/** Default sidebar width for mobile devices. */
 const SIDEBAR_WIDTH_MOBILE = '18rem'
+/** Sidebar width when collapsed to icon-only mode. */
 const SIDEBAR_WIDTH_ICON = '3rem'
+/** Keyboard shortcut key for toggling sidebar (Ctrl/Cmd + key). */
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
+/** Context properties shared across all sidebar components. */
 type SidebarContextProps = {
+  /** Current sidebar state - either expanded or collapsed. */
   state: 'expanded' | 'collapsed'
+  /** Whether the desktop sidebar is currently open. */
   open: boolean
+  /** Function to set the desktop sidebar open state. */
   setOpen: (open: boolean) => void
+  /** Whether the mobile sidebar sheet is currently open. */
   openMobile: boolean
+  /** Function to set the mobile sidebar sheet open state. */
   setOpenMobile: (open: boolean) => void
+  /** Whether the current viewport is mobile-sized. */
   isMobile: boolean
+  /** Function to toggle sidebar open/closed (respects mobile vs desktop). */
   toggleSidebar: () => void
 }
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null)
 
+/**
+ * Hook to access sidebar context.
+ *
+ * @throws {Error} If used outside of a SidebarProvider
+ * @returns The sidebar context object containing state and control functions
+ *
+ * @example
+ * ```tsx
+ * const { state, open, toggleSidebar } = useSidebar()
+ * ```
+ */
 function useSidebar() {
   const context = React.useContext(SidebarContext)
   if (!context) {
@@ -53,11 +78,27 @@ function useSidebar() {
   return context
 }
 
+/**
+ * Provider component for sidebar state management.
+ *
+ * Manages sidebar open/closed state for both desktop and mobile layouts,
+ * persists state via cookies, and registers keyboard shortcuts.
+ *
+ * @example
+ * ```tsx
+ * <SidebarProvider defaultOpen={true}>
+ *   <YourAppContent />
+ * </SidebarProvider>
+ * ```
+ */
 const SidebarProvider = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & {
+    /** Initial open state when uncontrolled. */
     defaultOpen?: boolean
+    /** Controlled open state (overrides internal state). */
     open?: boolean
+    /** Callback when open state changes. */
     onOpenChange?: (open: boolean) => void
   }
 >(
@@ -170,11 +211,35 @@ const SidebarProvider = React.forwardRef<
 )
 SidebarProvider.displayName = 'SidebarProvider'
 
+/**
+ * Main sidebar container component.
+ *
+ * Renders differently based on viewport:
+ * - Desktop: Fixed sidebar with configurable collapse behavior
+ * - Mobile: Sheet/drawer overlay
+ *
+ * @example
+ * // Basic usage with collapsible sidebar
+ * <Sidebar collapsible="icon" variant="floating">
+ *   <SidebarHeader>
+ *     <SidebarMenuButton>Logo</SidebarMenuButton>
+ *   </SidebarHeader>
+ *   <SidebarContent>
+ *     <SidebarGroup>
+ *       <SidebarMenu>Menu items go here</SidebarMenu>
+ *     </SidebarGroup>
+ *   </SidebarContent>
+ * </Sidebar>
+ * ```
+ */
 const Sidebar = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & {
+    /** Which side of the viewport to anchor the sidebar. */
     side?: 'left' | 'right'
+    /** Visual style variant for the sidebar. */
     variant?: 'sidebar' | 'floating' | 'inset'
+    /** Collapse behavior: offcanvas (slides away), icon (collapses to icons), or none (always visible). */
     collapsible?: 'offcanvas' | 'icon' | 'none'
   }
 >(
@@ -277,6 +342,16 @@ const Sidebar = React.forwardRef<
 )
 Sidebar.displayName = 'Sidebar'
 
+/**
+ * Button component that toggles the sidebar open/closed.
+ *
+ * Renders a panel icon button that calls toggleSidebar when clicked.
+ *
+ * @example
+ * ```tsx
+ * <SidebarTrigger />
+ * ```
+ */
 const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
@@ -303,6 +378,17 @@ const SidebarTrigger = React.forwardRef<
 })
 SidebarTrigger.displayName = 'SidebarTrigger'
 
+/**
+ * Interactive rail handle for toggling the sidebar on desktop.
+ *
+ * Appears as a thin interactive edge on the sidebar boundary that
+ * provides a visual affordance for sidebar toggle functionality.
+ *
+ * @example
+ * ```tsx
+ * <SidebarRail />
+ * ```
+ */
 const SidebarRail = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<'button'>
@@ -332,6 +418,21 @@ const SidebarRail = React.forwardRef<
 })
 SidebarRail.displayName = 'SidebarRail'
 
+/**
+ * Main content container that adapts to sidebar state.
+ *
+ * Renders as a main element that adjusts its layout based on
+ * the sidebar's variant and collapse state. Use for inset variants
+ * to create rounded content areas.
+ *
+ * @example
+ * ```tsx
+ * <SidebarInset>
+ *   <header>Page Header</header>
+ *   <main>Page Content</main>
+ * </SidebarInset>
+ * ```
+ */
 const SidebarInset = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'main'>
@@ -350,6 +451,18 @@ const SidebarInset = React.forwardRef<
 })
 SidebarInset.displayName = 'SidebarInset'
 
+/**
+ * Input component styled for use within the sidebar.
+ *
+ * Pre-styled input element with sidebar-themed focus ring and sizing.
+ *
+ * @example
+ * ```tsx
+ * <SidebarHeader>
+ *   <SidebarInput placeholder="Search..." />
+ * </SidebarHeader>
+ * ```
+ */
 const SidebarInput = React.forwardRef<
   React.ElementRef<typeof Input>,
   React.ComponentProps<typeof Input>
@@ -368,6 +481,18 @@ const SidebarInput = React.forwardRef<
 })
 SidebarInput.displayName = 'SidebarInput'
 
+/**
+ * Header section container for the sidebar.
+ *
+ * Use for placing logo, branding, or top-level navigation elements.
+ *
+ * @example
+ * ```tsx
+ * <SidebarHeader>
+ *   <SidebarMenuButton size="lg">Logo</SidebarMenuButton>
+ * </SidebarHeader>
+ * ```
+ */
 const SidebarHeader = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
@@ -383,6 +508,18 @@ const SidebarHeader = React.forwardRef<
 })
 SidebarHeader.displayName = 'SidebarHeader'
 
+/**
+ * Footer section container for the sidebar.
+ *
+ * Use for placing user controls, settings links, or bottom navigation.
+ *
+ * @example
+ * ```tsx
+ * <SidebarFooter>
+ *   <SidebarMenuButton>User Menu</SidebarMenuButton>
+ * </SidebarFooter>
+ * ```
+ */
 const SidebarFooter = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
@@ -398,6 +535,20 @@ const SidebarFooter = React.forwardRef<
 })
 SidebarFooter.displayName = 'SidebarFooter'
 
+/**
+ * Visual separator divider for sidebar content.
+ *
+ * Styled horizontal/vertical divider using the sidebar border color.
+ *
+ * @example
+ * ```tsx
+ * <SidebarContent>
+ *   <SidebarGroup>...</SidebarGroup>
+ *   <SidebarSeparator />
+ *   <SidebarGroup>...</SidebarGroup>
+ * </SidebarContent>
+ * ```
+ */
 const SidebarSeparator = React.forwardRef<
   React.ElementRef<typeof Separator>,
   React.ComponentProps<typeof Separator>
@@ -413,6 +564,22 @@ const SidebarSeparator = React.forwardRef<
 })
 SidebarSeparator.displayName = 'SidebarSeparator'
 
+/**
+ * Scrollable content area for sidebar items.
+ *
+ * Main container for menu groups, navigation items, and other sidebar content.
+ * Handles overflow scrolling and collapses appropriately in icon mode.
+ *
+ * @example
+ * // Wrap sidebar menu groups in this container
+ * <SidebarContent>
+ *   <SidebarGroup>
+ *     <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+ *     <SidebarMenu>Menu items</SidebarMenu>
+ *   </SidebarGroup>
+ * </SidebarContent>
+ * ```
+ */
 const SidebarContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
@@ -431,6 +598,21 @@ const SidebarContent = React.forwardRef<
 })
 SidebarContent.displayName = 'SidebarContent'
 
+/**
+ * Grouping container for organizing sidebar menu items.
+ *
+ * Use to create logical sections of navigation items with optional labels.
+ *
+ * @example
+ * // Group sidebar menu items together
+ * <SidebarGroup>
+ *   <SidebarGroupLabel>Main</SidebarGroupLabel>
+ *   <SidebarGroupContent>
+ *     <SidebarMenu>Menu items</SidebarMenu>
+ *   </SidebarGroupContent>
+ * </SidebarGroup>
+ * ```
+ */
 const SidebarGroup = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
@@ -446,6 +628,17 @@ const SidebarGroup = React.forwardRef<
 })
 SidebarGroup.displayName = 'SidebarGroup'
 
+/**
+ * Label header for a sidebar group.
+ *
+ * Displays section titles that hide in icon-only mode.
+ * Can render as a custom component via asChild.
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroupLabel>Projects</SidebarGroupLabel>
+ * ```
+ */
 const SidebarGroupLabel = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & { asChild?: boolean }
@@ -467,6 +660,24 @@ const SidebarGroupLabel = React.forwardRef<
 })
 SidebarGroupLabel.displayName = 'SidebarGroupLabel'
 
+/**
+ * Action button positioned in the top-right of a sidebar group.
+ *
+ * Use for group-level actions like "Create New" or "Expand All".
+ * Positioned absolutely and hidden in icon-only mode.
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroup>
+ *   <SidebarGroupLabel>
+ *     Projects
+ *     <SidebarGroupAction>
+ *       <PlusIcon />
+ *     </SidebarGroupAction>
+ *   </SidebarGroupLabel>
+ * </SidebarGroup>
+ * ```
+ */
 const SidebarGroupAction = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<'button'> & { asChild?: boolean }
@@ -490,6 +701,21 @@ const SidebarGroupAction = React.forwardRef<
 })
 SidebarGroupAction.displayName = 'SidebarGroupAction'
 
+/**
+ * Content wrapper for sidebar group children.
+ *
+ * Optional wrapper for semantic grouping of menu items within a group.
+ *
+ * @example
+ * // Wrapper for sidebar menu group content
+ * <SidebarGroup>
+ *   <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+ *   <SidebarGroupContent>
+ *     <SidebarMenu>Menu items</SidebarMenu>
+ *   </SidebarGroupContent>
+ * </SidebarGroup>
+ * ```
+ */
 const SidebarGroupContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
@@ -503,6 +729,20 @@ const SidebarGroupContent = React.forwardRef<
 ))
 SidebarGroupContent.displayName = 'SidebarGroupContent'
 
+/**
+ * List container for sidebar menu items.
+ *
+ * Renders as a `<ul>` with proper spacing and flex layout.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenu>
+ *   <SidebarMenuItem>
+ *     <SidebarMenuButton>Item</SidebarMenuButton>
+ *   </SidebarMenuItem>
+ * </SidebarMenu>
+ * ```
+ */
 const SidebarMenu = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<'ul'>
@@ -516,6 +756,21 @@ const SidebarMenu = React.forwardRef<
 ))
 SidebarMenu.displayName = 'SidebarMenu'
 
+/**
+ * Individual menu item container in a sidebar menu.
+ *
+ * Renders as a `<li>` with hover state tracking for child action buttons.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton href="/dashboard">Dashboard</SidebarMenuButton>
+ *   <SidebarMenuAction>
+ *     <MoreVerticalIcon />
+ *   </SidebarMenuAction>
+ * </SidebarMenuItem>
+ * ```
+ */
 const SidebarMenuItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<'li'>
@@ -551,11 +806,35 @@ const sidebarMenuButtonVariants = cva(
   },
 )
 
+/**
+ * Interactive button for sidebar menu items.
+ *
+ * Supports optional tooltips that appear when the sidebar is collapsed.
+ * Can be rendered as a custom element via asChild (e.g., for Link components).
+ *
+ * @example
+ * ```tsx
+ * // Basic button
+ * <SidebarMenuButton>Settings</SidebarMenuButton>
+ *
+ * // With tooltip for collapsed state
+ * <SidebarMenuButton tooltip="Settings">
+ *   <SettingsIcon />
+ *   <span>Settings</span>
+ * </SidebarMenuButton>
+ *
+ * // Active state
+ * <SidebarMenuButton isActive={true}>Dashboard</SidebarMenuButton>
+ * ```
+ */
 const SidebarMenuButton = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<'button'> & {
+    /** Render as a child component instead of button (useful for React Router Link). */
     asChild?: boolean
+    /** Whether this menu item represents the currently active route. */
     isActive?: boolean
+    /** Tooltip content (string or TooltipContent props) shown when collapsed. */
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
   } & VariantProps<typeof sidebarMenuButtonVariants>
 >(
@@ -610,10 +889,28 @@ const SidebarMenuButton = React.forwardRef<
 )
 SidebarMenuButton.displayName = 'SidebarMenuButton'
 
+/**
+ * Secondary action button for individual menu items.
+ *
+ * Positioned absolutely within a menu item, typically for contextual actions
+ * like delete, edit, or more options. Can be set to only show on hover.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>Project</SidebarMenuButton>
+ *   <SidebarMenuAction showOnHover={true}>
+ *     <TrashIcon />
+ *   </SidebarMenuAction>
+ * </SidebarMenuItem>
+ * ```
+ */
 const SidebarMenuAction = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<'button'> & {
+    /** Render as a child component instead of button. */
     asChild?: boolean
+    /** Only show the action when the parent menu item is hovered (desktop only). */
     showOnHover?: boolean
   }
 >(({ className, asChild = false, showOnHover = false, ...props }, ref) => {
@@ -641,6 +938,20 @@ const SidebarMenuAction = React.forwardRef<
 })
 SidebarMenuAction.displayName = 'SidebarMenuAction'
 
+/**
+ * Badge/count indicator for menu items.
+ *
+ * Displays notification counts or status indicators in the top-right
+ * corner of a menu item. Hidden in icon-only mode.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>Notifications</SidebarMenuButton>
+ *   <SidebarMenuBadge>3</SidebarMenuBadge>
+ * </SidebarMenuItem>
+ * ```
+ */
 const SidebarMenuBadge = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
@@ -662,9 +973,25 @@ const SidebarMenuBadge = React.forwardRef<
 ))
 SidebarMenuBadge.displayName = 'SidebarMenuBadge'
 
+/**
+ * Skeleton placeholder for loading menu items.
+ *
+ * Renders animated placeholder content to simulate loading menu items.
+ * Text width is randomized between 50-90% for visual variety.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenu>
+ *   <SidebarMenuSkeleton showIcon={true} />
+ *   <SidebarMenuSkeleton showIcon={true} />
+ *   <SidebarMenuSkeleton showIcon={false} />
+ * </SidebarMenu>
+ * ```
+ */
 const SidebarMenuSkeleton = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & {
+    /** Whether to show an icon placeholder alongside the text placeholder. */
     showIcon?: boolean
   }
 >(({ className, showIcon = false, ...props }, ref) => {
@@ -700,6 +1027,24 @@ const SidebarMenuSkeleton = React.forwardRef<
 })
 SidebarMenuSkeleton.displayName = 'SidebarMenuSkeleton'
 
+/**
+ * Nested submenu container for hierarchical navigation.
+ *
+ * Renders as an indented list with a left border to show hierarchy.
+ * Automatically hidden in icon-only collapse mode.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>Parent</SidebarMenuButton>
+ *   <SidebarMenuSub>
+ *     <SidebarMenuSubItem>
+ *       <SidebarMenuSubButton>Child Item</SidebarMenuSubButton>
+ *     </SidebarMenuSubItem>
+ *   </SidebarMenuSub>
+ * </SidebarMenuItem>
+ * ```
+ */
 const SidebarMenuSub = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<'ul'>
@@ -717,17 +1062,45 @@ const SidebarMenuSub = React.forwardRef<
 ))
 SidebarMenuSub.displayName = 'SidebarMenuSub'
 
+/**
+ * Individual item within a submenu.
+ *
+ * Simple list item wrapper for submenu button elements.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuSubItem>
+ *   <SidebarMenuSubButton href="/settings/profile">Profile</SidebarMenuSubButton>
+ * </SidebarMenuSubItem>
+ * ```
+ */
 const SidebarMenuSubItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<'li'>
 >(({ ...props }, ref) => <li ref={ref} {...props} />)
 SidebarMenuSubItem.displayName = 'SidebarMenuSubItem'
 
+/**
+ * Button/link element for submenu items.
+ *
+ * Renders as an `<a>` tag by default but can be customized via asChild.
+ * Smaller and more compact than the main SidebarMenuButton.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuSubButton href="/settings/profile" isActive={true}>
+ *   Profile Settings
+ * </SidebarMenuSubButton>
+ * ```
+ */
 const SidebarMenuSubButton = React.forwardRef<
   HTMLAnchorElement,
   React.ComponentProps<'a'> & {
+    /** Render as a child component instead of anchor. */
     asChild?: boolean
+    /** Size variant: small or medium. */
     size?: 'sm' | 'md'
+    /** Whether this represents the currently active route. */
     isActive?: boolean
   }
 >(({ asChild = false, size = 'md', isActive, className, ...props }, ref) => {

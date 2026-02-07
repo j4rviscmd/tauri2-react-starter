@@ -7,14 +7,23 @@ import * as React from 'react'
 
 import { cn } from '@/shared/lib/utils'
 
+/** Root sheet component - wraps all sheet sub-components. */
 const Sheet = SheetPrimitive.Root
 
+/** Button/component that triggers the sheet to open. */
 const SheetTrigger = SheetPrimitive.Trigger
 
+/** Button/component that closes the sheet when clicked. */
 const SheetClose = SheetPrimitive.Close
 
+/** Portal wrapper for rendering the sheet outside the DOM hierarchy. */
 const SheetPortal = SheetPrimitive.Portal
 
+/**
+ * Dimmed overlay that appears behind the open sheet.
+ *
+ * Closes the sheet when clicked and provides a backdrop focus effect.
+ */
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
@@ -30,6 +39,11 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
+/**
+ * Slide-in animation variants for the sheet panel.
+ *
+ * Defines entrance/exit animations based on which side the sheet appears from.
+ */
 const sheetVariants = cva(
   'fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out',
   {
@@ -54,6 +68,26 @@ interface SheetContentProps
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
     VariantProps<typeof sheetVariants> {}
 
+/**
+ * Main content panel for the sheet dialog.
+ *
+ * The visible panel that slides in from the specified side (top, bottom, left, right).
+ * Includes a close button and automatically renders within a Portal with an overlay.
+ *
+ * @example
+ * ```tsx
+ * <Sheet>
+ *   <SheetTrigger>Open</SheetTrigger>
+ *   <SheetContent side="right">
+ *     <SheetHeader>
+ *       <SheetTitle>Title</SheetTitle>
+ *       <SheetDescription>Description</SheetDescription>
+ *     </SheetHeader>
+ *     <div>Your content here</div>
+ *   </SheetContent>
+ * </Sheet>
+ * ```
+ */
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
@@ -75,6 +109,19 @@ const SheetContent = React.forwardRef<
 ))
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
+/**
+ * Header section container for the sheet.
+ *
+ * Use for grouping title and description at the top of the sheet.
+ *
+ * @example
+ * ```tsx
+ * <SheetHeader>
+ *   <SheetTitle>Sheet Title</SheetTitle>
+ *   <SheetDescription>Optional description</SheetDescription>
+ * </SheetHeader>
+ * ```
+ */
 const SheetHeader = ({
   className,
   ...props
@@ -89,6 +136,20 @@ const SheetHeader = ({
 )
 SheetHeader.displayName = 'SheetHeader'
 
+/**
+ * Footer section container for action buttons.
+ *
+ * Automatically arranges buttons in a row on desktop and column on mobile.
+ * Use for placing primary/secondary action buttons at the bottom.
+ *
+ * @example
+ * ```tsx
+ * <SheetFooter>
+ *   <Button variant="outline">Cancel</Button>
+ *   <Button>Confirm</Button>
+ * </SheetFooter>
+ * ```
+ */
 const SheetFooter = ({
   className,
   ...props
@@ -103,6 +164,16 @@ const SheetFooter = ({
 )
 SheetFooter.displayName = 'SheetFooter'
 
+/**
+ * Accessible title component for the sheet.
+ *
+ * Required for accessibility. Use as a child of SheetHeader.
+ *
+ * @example
+ * ```tsx
+ * <SheetTitle>Edit Profile</SheetTitle>
+ * ```
+ */
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
@@ -115,6 +186,19 @@ const SheetTitle = React.forwardRef<
 ))
 SheetTitle.displayName = SheetPrimitive.Title.displayName
 
+/**
+ * Accessible description component for the sheet.
+ *
+ * Provides additional context for screen readers. Renders as muted text.
+ * Use within SheetHeader after SheetTitle.
+ *
+ * @example
+ * ```tsx
+ * <SheetDescription>
+ *   Make changes to your profile here. Click save when you're done.
+ * </SheetDescription>
+ * ```
+ */
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
