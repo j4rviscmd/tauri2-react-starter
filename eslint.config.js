@@ -11,10 +11,7 @@ export default defineConfig([
   globalIgnores(['dist', 'src-tauri/target', 'node_modules']),
   {
     files: ['**/*.{ts,tsx}'],
-    ignores: [
-      '**/src/shared/ui/animate-ui/**',
-      '**/src/shared/ui/sidebar-animated.tsx',
-    ],
+    ignores: ['**/src/shared/ui/animate-ui/**'],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
