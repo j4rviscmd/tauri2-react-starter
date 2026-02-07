@@ -11,6 +11,7 @@ import { SettingsPage } from '@/pages/settings'
  * All routes are nested under the AppLayout component.
  */
 export const routes: RouteObject[] = [
+  // Main application routes with AppLayout
   {
     path: '/',
     element: <AppLayout />,

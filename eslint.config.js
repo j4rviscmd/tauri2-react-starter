@@ -11,6 +11,10 @@ export default defineConfig([
   globalIgnores(['dist', 'src-tauri/target', 'node_modules']),
   {
     files: ['**/*.{ts,tsx}'],
+    ignores: [
+      '**/src/shared/ui/animate-ui/**',
+      '**/src/shared/ui/sidebar-animated.tsx',
+    ],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -30,7 +34,12 @@ export default defineConfig([
         'error',
         {
           allowConstantExport: true,
-          allowExportNames: ['buttonVariants', 'useTheme'],
+          allowExportNames: [
+            'buttonVariants',
+            'useTheme',
+            'useDataState',
+            'DataStateValue',
+          ],
         },
       ],
       'prettier/prettier': 'error',
