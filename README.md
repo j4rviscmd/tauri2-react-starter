@@ -177,21 +177,38 @@ Reusable, non-domain-specific building blocks used across the app.
 
 ## Release Setup (For Forked Repositories)
 
-This template includes Tauri's auto-update functionality. After forking,
-configure the following:
+This template includes Tauri's auto-update functionality and GitHub release notes
+integration. After forking, configure the following:
 
 ### Required GitHub Secrets
 
-| Secret Name                          | Description                     |
-| ------------------------------------ | ------------------------------- |
-| `TAURI_SIGNING_PRIVATE_KEY`          | Private key for signing updates |
-| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | Password for the private key    |
+| Secret Name                          | Description                                                 |
+| ------------------------------------ | ----------------------------------------------------------- |
+| `TAURI_SIGNING_PRIVATE_KEY`          | Private key for signing updates                             |
+| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | Password for the private key (if set during key generation) |
 
 ### Configuration Files to Update
 
 1. **`src-tauri/tauri.conf.json`** - Set `plugins.updater.pubkey` and update
    `endpoints` URL with your repository path
 2. **`README.md`** - Replace `<owner>/<repo>` in badge URLs
+
+### Environment Variables (Local Development)
+
+For local development, create a `.env` file in the project root:
+
+```bash
+# .env
+GITHUB_OWNER=your-username
+GITHUB_REPO=your-repo-name
+```
+
+This enables fetching GitHub release notes during development. In production,
+these values are automatically provided by GitHub Actions.
+
+**Important**: The `.env` file is for local development only. It is **not**
+included in production builds. Ensure GitHub Actions workflows can access
+repository information (automatically configured in `.github/workflows/release.yml`).
 
 ### Documentation
 
