@@ -37,7 +37,7 @@
     "updater": {
       "pubkey": "YOUR_PUBLIC_KEY_HERE",
       "endpoints": [
-        "https://github.com/j4rviscmd/bilibili-downloader-gui/releases/latest/download/latest.json"
+        "https://github.com/{owner}/{repo}/releases/latest/download/latest.json"
       ]
     }
   }
