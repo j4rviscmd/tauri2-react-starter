@@ -18,9 +18,7 @@
 /// The entry point is automatically called by the system:
 ///
 /// ```rust,no_run
-/// fn main() {
-///     tauri2_react_starter_lib::run()
-/// }
+/// tauri2_react_starter_lib::run()
 /// ```
 fn main() {
     tauri2_react_starter_lib::run()

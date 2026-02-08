@@ -46,8 +46,6 @@ struct GitHubRelease {
     body: Option<String>,
     /// ISO 8601 timestamp of when the release was created.
     created_at: String,
-    /// URL to the release page on GitHub.
-    html_url: String,
 }
 
 /// Tauri command to fetch GitHub release notes for versions newer than current.
@@ -105,7 +103,7 @@ struct GitHubRelease {
 /// ```
 #[tauri::command]
 async fn get_release_notes() -> Result<String, String> {
-    use semver::{Version, VersionReq};
+    use semver::Version;
 
     // Load .env file for development
     dotenv::dotenv().ok();
@@ -166,7 +164,6 @@ async fn get_release_notes() -> Result<String, String> {
             break;
         }
 
-        let count_before = all_releases.len();
         let releases_len = releases.len();
 
         for release in releases {
@@ -319,9 +316,7 @@ async fn get_release_notes() -> Result<String, String> {
 /// This function is called from `main()`:
 ///
 /// ```rust,no_run
-/// fn main() {
-///     tauri2_react_starter_lib::run()
-/// }
+/// tauri2_react_starter_lib::run()
 /// ```
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
