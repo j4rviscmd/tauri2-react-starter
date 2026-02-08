@@ -7,6 +7,7 @@
  * @exports checkForUpdates - Initiates update check and displays dialog if update available.
  * @exports downloadAndInstallUpdate - Downloads and installs available update.
  * @exports dismissUpdate - Closes the update notification dialog.
+ * @exports getReleaseNotes - Fetches release notes from GitHub.
  * @exports UpdateStatus - Type for update process status.
  * @exports UpdateInfo - Type for available update information.
  * @exports DownloadProgress - Type for download progress tracking.
@@ -21,6 +22,7 @@ export {
   checkForUpdates,
   dismissUpdate,
   downloadAndInstallUpdate,
+  getReleaseNotes,
 } from './api/updaterApi'
 export type {
   DownloadProgress,

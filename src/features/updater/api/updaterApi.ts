@@ -1,3 +1,4 @@
+import { invoke } from '@tauri-apps/api/core'
 import { relaunch } from '@tauri-apps/plugin-process'
 import { check } from '@tauri-apps/plugin-updater'
 
@@ -16,20 +17,10 @@ import {
 let currentUpdate: Update | null = null
 
 /**
- * Checks if the app is running in development mode.
- *
- * @returns true if running in development, false otherwise.
- */
-function isDevelopment(): boolean {
-  return import.meta.env.DEV
-}
-
-/**
  * Checks for available application updates.
  *
  * Queries the Tauri updater plugin for new versions. If an update is found,
- * stores the update object and opens the update dialog. Skips checking in
- * development mode.
+ * stores the update object and opens the update dialog.
  *
  * @param dispatch - Redux dispatch function for state updates.
  *
@@ -39,12 +30,6 @@ function isDevelopment(): boolean {
  * ```
  */
 export async function checkForUpdates(dispatch: AppDispatch): Promise<void> {
-  // Skip update check in development mode
-  if (isDevelopment()) {
-    console.log('[Updater] Skipping update check in development mode')
-    return
-  }
-
   dispatch(setStatus('checking'))
   dispatch(setError(null))
 
@@ -53,12 +38,22 @@ export async function checkForUpdates(dispatch: AppDispatch): Promise<void> {
 
     if (update) {
       currentUpdate = update
+
+      // Fetch release notes before opening dialog
+      let releaseNotes = 'No release notes available'
+      try {
+        releaseNotes = await getReleaseNotes()
+      } catch (error) {
+        console.error('[Updater] Failed to fetch release notes:', error)
+        // Continue without release notes - don't block the update
+      }
+
       dispatch(
         setUpdateInfo({
           version: update.version,
           currentVersion: update.currentVersion,
           date: update.date ?? null,
-          body: update.body ?? null,
+          body: releaseNotes,
         }),
       )
       dispatch(setStatus('available'))
@@ -165,4 +160,22 @@ export async function downloadAndInstallUpdate(
  */
 export function dismissUpdate(dispatch: AppDispatch): void {
   dispatch(closeDialog())
+}
+
+/**
+ * Fetches release notes from GitHub.
+ *
+ * Calls the Tauri backend command to retrieve the latest release notes
+ * from the GitHub repository configured via environment variables.
+ *
+ * @returns Promise resolving to the release notes markdown content.
+ *
+ * @example
+ * ```typescript
+ * const notes = await getReleaseNotes()
+ * console.log(notes)
+ * ```
+ */
+export async function getReleaseNotes(): Promise<string> {
+  return invoke<string>('get_release_notes')
 }

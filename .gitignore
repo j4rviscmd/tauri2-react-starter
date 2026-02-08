@@ -46,3 +46,7 @@ installer/
 
 # Git worktrees
 .worktrees/
+
+# Environment variables
+.env
+.env.local
